@@ -1,0 +1,75 @@
+@import '~styles/animate';
+@import '~styles/fonts';
+
+// bootstrap
+@import "~styles/bs/variables";
+@import "~styles/bs/mixins";
+@import "~styles/bs/scaffolding";
+@import "~styles/bs/grid";
+@import "~styles/bs/buttons";
+@import "~styles/bs/forms";
+@import "~styles/bs/alerts";
+
+.button {
+	.btn;
+	.btn-primary;
+}
+
+.submit {
+	.button;
+	.btn-block;
+
+	&, &:hover, &:active, &:focus {
+		color: #fff;
+		text-shadow: 0 1px 0 rgba(0,0,0,.5);
+	}
+}
+
+.form {
+    .animated;
+    .fadeIn;
+
+	.legend {
+		color: #eee;
+		border-bottom: 1px solid rgba(255,255,255,.1);
+	}
+
+	fieldset > div.field {
+		// .row;
+	}
+}
+
+.field {
+	.form-group;
+	.clearfix;
+
+	position: relative;
+
+	> input:focus + label, > input + label.hide {
+		opacity: 0;
+	}
+
+	> label {
+		pointer-events: none;
+		position: absolute;
+		z-index: 1;
+		top: 0;
+		left: 0;
+		opacity: 1;
+		transition: opacity .25s ease-in-out;
+		cursor: text;
+		color: @input-color-placeholder;
+		font-weight: normal;
+		padding: (@padding-small-vertical + 1) @padding-small-horizontal;
+		line-height: @line-height-small;
+		// .make-md-column(3);
+	}
+
+	> div {
+		// .make-md-column(9);
+	}
+}
+
+.control {
+	.form-control;
+}
