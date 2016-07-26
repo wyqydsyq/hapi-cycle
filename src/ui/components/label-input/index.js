@@ -5,8 +5,8 @@ import classes from 'dependencies/classes';
 
 import styles from '../form/styles.less';
 
-function LabelInput ({props, props$ = xs.of(props), state}) {
-	let vtree$ = props$.map(props => {
+function LabelInput ({props$, state$}) {
+	let vtree$ = xs.combine(props$, state$).map(([props, state]) => {
 			return div({class: classes(styles.field)}, [
 				input('.label-input', {class: classes(styles.control), props: {type: props.type, name: props.name, id: props.name}}),
 				label({class: {[styles.hide]: (typeof state.data[props.name] != 'undefined' && state.data[props.name].length)}, attrs: {for: props.name}}, [props.label])
@@ -19,4 +19,4 @@ function LabelInput ({props, props$ = xs.of(props), state}) {
 	}
 };
 
-export default LabelInput;
+export default sources => isolate(LabelInput)(sources);

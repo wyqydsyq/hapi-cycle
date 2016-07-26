@@ -1,7 +1,7 @@
 import xs from 'xstream'
 import {html, head, body, title, script, link, div} from '@cycle/dom'
 
-function wrapApp (appDOM) {
+function wrapVTree (vtree) {
 	return html([
 		head([
 			title('HapiCycle'),
@@ -11,7 +11,7 @@ function wrapApp (appDOM) {
 			}})
 		]),
 		body([
-			div('#app', []),
+			div('#app', [vtree]),
 			script({attrs: {
 				type: 'text/javascript',
 				src: '/build/client.js'
@@ -23,10 +23,8 @@ function wrapApp (appDOM) {
 function Boilerplate (sources, App) {
 	const AppResult = App(sources)
 
-	let wrappedDOM$ = xs.combine(wrapApp, AppResult.DOM).take(1)
-
 	return Object.assign({}, AppResult, {
-		DOM: wrappedDOM$
+		DOM: AppResult.DOM.take(1).map(wrapVTree)
 	})
 }
 

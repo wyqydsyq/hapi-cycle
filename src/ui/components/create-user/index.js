@@ -37,10 +37,6 @@ function intent ({DOM, HTTP}) {
 				return xs.of(res);
 			}))
 			.flatten()
-			.map(r => {
-				console.log('Req: ', r.request.method + ' ' + r.request.url)
-				return r
-			})
 			.filter(r => r.request.method == 'POST')
 			.map(res => action('response', {
 				success: (typeof res.error == 'undefined' || !res.error),
@@ -82,17 +78,19 @@ function model (intent) {
 function CreateUser (sources) {
 	let actions = intent(sources),
 		state$ = model(actions),
-		render = (state) => {
-			let emailField = LabelInput({state, props: {
-				name: 'email',
-				type: 'email',
-				label: 'Email'
-			}}),
-			passwordField = LabelInput({state, props: {
-				name: 'password',
-				type: 'password',
-				label: 'Password'
-			}});
+
+		emailField = LabelInput({state$, props$: xs.of({
+			name: 'email',
+			type: 'email',
+			label: 'Email'
+		})}),
+		passwordField = LabelInput({state$, props$: xs.of({
+			name: 'password',
+			type: 'password',
+			label: 'Password'
+		})}),
+
+		render = ([state, email, password]) => {
 
 			return form({class: classes(styles.form, styles.formHorizontal)}, [
 				fieldset([
@@ -104,23 +102,23 @@ function CreateUser (sources) {
 						]))
 					) : '',
 					legend({class: classes(styles.legend)}, 'Create User'),
-					emailField.DOM,
-					passwordField.DOM,
+					email,
+					password,
 					div([
 						button({class: classes(styles.submit), props: {type: 'button', disabled: state.submitting}}, [
-							state.submitting
-							? i({class: classes(styles.fa, styles.faSpinner, styles.faSpin)})
-							: i({class: classes(styles.fa, styles.faUserPlus)}),
+							(state.submitting
+								? i({class: classes(styles.fa, styles.faSpinner, styles.faSpin)})
+								: i({class: classes(styles.fa, styles.faUserPlus)})
+							),
 							state.submitting ? ' Creating...' : ' Create'
 						])
 					])
 				])
 			])
-		},
-		vtree$ = state$.map(render);
+		}
 
 	return {
-		DOM: vtree$,
+		DOM: xs.combine(state$, emailField.DOM, passwordField.DOM).map(render),
 		HTTP: xs.combine(state$.take(1), actions.submit$).map(([state, action]) => ({
 			url: 'http://localhost:1337/users',
 			category: 'user',

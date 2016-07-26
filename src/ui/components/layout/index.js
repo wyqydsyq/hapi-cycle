@@ -15,7 +15,7 @@ const layout = ({DOM}, view) => {
 					h1('HapiCycle')
 				]),
 				div({class: classes(styles.page)}, [
-					content.DOM
+					content
 				]),
 				footer({class: classes(styles.container)}, [
 					small([
@@ -25,9 +25,8 @@ const layout = ({DOM}, view) => {
 				])
 			])
 		},
-		vtree$ = externalLinkClick$.startWith(view).map(render),
 		component = Object.assign({}, view, {
-			DOM: vtree$
+			DOM: view.DOM.map(render)
 		})
 
 	return component

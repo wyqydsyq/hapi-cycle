@@ -6,7 +6,7 @@ import {createHistory} from 'history';
 
 let getApp = () => require('./ui/app').default,
 	getDrivers = () => ({
-	    DOM: makeDOMDriver('#app', {transposition: true}),
+	    DOM: makeDOMDriver('#app'),
 	    HTTP: makeHTTPDriver(),
 		Router: makeRouterDriver(createHistory())
 	}),

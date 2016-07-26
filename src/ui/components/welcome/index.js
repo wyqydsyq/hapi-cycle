@@ -21,7 +21,7 @@ function Welcome (sources) {
 			category: 'user',
 			method: 'GET'
 		},
-		render = (users) => { console.log('Users: ', users)
+		render = ([users, createUserForm]) => {
 			return div([
 				h1('Welcome to your new Cycle.js + Hapi application!'),
 				p('Your ORM has the following users:'),
@@ -29,11 +29,11 @@ function Welcome (sources) {
 					code(JSON.stringify(users, null, "\t"))
 				]),
 				hr(),
-				createUser.DOM
+				createUserForm
 			])
 		};
 	return {
-		DOM: users$.map(render),
+		DOM: xs.combine(users$, createUser.DOM).map(render),
 		HTTP: xs.merge(
 			// request users for initial state
 			xs.of(getUsers),
