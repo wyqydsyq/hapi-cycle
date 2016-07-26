@@ -25,7 +25,7 @@ Features / Libraries included
 Getting Started
 ---
 
-  1. `$ git clone https://github.com/wyqydsyq/HapiCycle.git HapiCycle/ && cd HapiCycle/`
+  1. `$ git clone https://github.com/wyqydsyq/hapi-cycle.git hapi-cycle/ && cd hapi-cycle/`
   2. `$ npm install`
   3. `$ npm run launch`
   4. Open `http://localhost:1337/` in your browser.
