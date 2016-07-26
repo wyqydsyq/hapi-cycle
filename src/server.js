@@ -41,16 +41,16 @@ server.register([
 	},
 	{
 		register: Dogwater,
-	    options: {
-	        adapters: {
-	            memory: Memory
-	        },
-	        connections: {
-	            simple: {
+		options: {
+			adapters: {
+				memory: Memory
+			},
+			connections: {
+				simple: {
 					adapter: 'memory'
 				}
-	        }
-	    }
+			}
+		}
 	},
 	{
 		register: require('inert')
@@ -66,7 +66,7 @@ server.register([
 			context.replace(req.url)
 
 			Cycle.run(sources => Boilerplate(sources, App), {
-				DOM: makeHTMLDriver(html => res('<!DOCTYPE html>' + html), {transposition: true}),
+				DOM: makeHTMLDriver(html => res('<!DOCTYPE html>' + html)),
 				HTTP: makeHTTPDriver(),
 				Router: makeRouterDriver(context)
 			});
@@ -74,28 +74,28 @@ server.register([
 	})
 
 	server.route({
-	    method: 'GET',
-	    path: '/build/{param*}',
-	    handler: {
-	        directory: {
-	            path: '.tmp'
-	        }
-	    }
+		method: 'GET',
+		path: '/build/{param*}',
+		handler: {
+			directory: {
+				path: '.tmp'
+			}
+		}
 	})
 
 	server.dogwater({
-        identity: 'users',
-        connection: 'simple',
-        attributes: {
+		identity: 'users',
+		connection: 'simple',
+		attributes: {
 			email: 'string',
 			password: 'string',
 		}
-    })
+	})
 
 	server.route({
-	    method: 'POST',
-	    path: '/users',
-	    handler: (req, res) => {
+		method: 'POST',
+		path: '/users',
+		handler: (req, res) => {
 			const Users = server.collections().users
 
 			Users.create([{
@@ -106,9 +106,9 @@ server.register([
 	})
 
 	server.route({
-	    method: 'GET',
-	    path: '/users',
-	    handler: (req, res) => {
+		method: 'GET',
+		path: '/users',
+		handler: (req, res) => {
 			const Users = server.collections().users
 
 			Users.find().then(users => {

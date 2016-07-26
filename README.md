@@ -13,3 +13,5 @@ Features / Libraries included
  * Webpack preconfigured with HMR and Babel for ES2015/ES2016 support
  * Bootstrap's LESS source
  * Waterline ORM via Dogwater
+ * Bootstrap LESS source is included by default, if you don't want it just run: `rm -rf ./assets/styles/bs/`
+ * Animate.css for easy transitions
