@@ -9,15 +9,15 @@ import styles from '../form/styles.less';
 import LabelInput from 'components/label-input';
 
 const dataIni = {
-	    email: '',
-	    password: '',
-		remember: null
-	},
-	stateIni = {
-		alerts: [],
-		submitting: false,
-		data: dataIni
-	};
+	email: '',
+	password: '',
+	remember: null
+},
+stateIni = {
+	alerts: [],
+	submitting: false,
+	data: dataIni
+};
 
 function action (type, data = {}) {
 	return {
@@ -98,26 +98,26 @@ function CreateUser (sources) {
 				fieldset([
 					// show alerts if there's any
 					state.alerts.length ? div('.alerts',
-						state.alerts.map(alert => div({class: classes(styles.alert, styles[alert.className || 'alert-info'])}, [
-							(typeof alert.title != 'undefined' && alert.title) ? strong(alert.title): '',
-							alert.text
-						]))
-					) : '',
-					legend({class: classes(styles.legend)}, 'Create User'),
-					emailField.DOM,
-					passwordField.DOM,
-					div([
-						button({class: classes(styles.submit), props: {type: 'button', disabled: state.submitting}}, [
-							state.submitting
-								? i({class: classes(styles.fa, styles.faSpinner, styles.faSpin)})
-								: i({class: classes(styles.fa, styles.faUserPlus)}),
-							state.submitting ? ' Creating...' : ' Create'
-						])
+					state.alerts.map(alert => div({class: classes(styles.alert, styles[alert.className || 'alert-info'])}, [
+						(typeof alert.title != 'undefined' && alert.title) ? strong(alert.title): '',
+						alert.text
+					]))
+				) : '',
+				legend({class: classes(styles.legend)}, 'Create User'),
+				emailField.DOM,
+				passwordField.DOM,
+				div([
+					button({class: classes(styles.submit), props: {type: 'button', disabled: state.submitting}}, [
+						state.submitting
+						? i({class: classes(styles.fa, styles.faSpinner, styles.faSpin)})
+						: i({class: classes(styles.fa, styles.faUserPlus)}),
+						state.submitting ? ' Creating...' : ' Create'
 					])
 				])
 			])
-		},
-		vtree$ = state$.map(render);
+		])
+	},
+	vtree$ = state$.map(render);
 
 	return {
 		DOM: vtree$,
