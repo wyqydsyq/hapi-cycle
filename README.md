@@ -35,4 +35,5 @@ TODO
  1. Optimize Webpack config – currently all assets are bundled in both server and client configs. We need one of these configs to bundle the assets and the other one to alias/refer to the already-bundled assets instead of rebundling them.
  2. Follow FRP/Cycle best practices – some components need refactoring to be more efficient and readable. A few files are `import`ing modules that don't get used.
  3. Improve configurability – Make some basic `development`/`production` environment-specific configurations. HMR shouldn't be registered in `server.js` and shouldn't be injected into the `client.js` bundle in `production`.
- 4. Make a Yeoman generator – Porting this into a Yeoman generator would broaden the awareness/appeal and make using this a bit easier for those who already use Yeoman for scaffolding apps.
+ 4. Set up API scaffold/boilerplate - API routes/handlers are currently just defined in `./src/server.js`, ideally they should be set up as a seperate file for each handler with a single `routes.js` mapping route `path`s to `handler`s.
+ 5. Make a Yeoman generator – Porting this into a Yeoman generator would broaden the awareness/appeal and make using this a bit easier for those who already use Yeoman for scaffolding apps.
