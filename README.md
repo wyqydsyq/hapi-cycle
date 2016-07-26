@@ -5,9 +5,7 @@ HapiCycle is a basic starter kit to get you going with a straight-forward isomor
 
 **WORK IN PROGRESS**
 
-*
-HapiCycle is currently a WIP and the skeleton app may not yet be following ideal FRP/Cycle conventions/best-practices and the Webpack config hasn't been fully optimized. Pull requests are welcome!
-*
+*HapiCycle is currently a WIP and the skeleton app may not yet be following ideal FRP/Cycle conventions/best-practices and the Webpack config hasn't been fully optimized. Pull requests are welcome!*
 
 Features / Libraries included
 ---
