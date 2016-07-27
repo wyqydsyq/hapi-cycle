@@ -1,5 +1,5 @@
 import xs from 'xstream'
-import Routes from '../routes'
+import Routes from './routes'
 
 function App (sources) {
     const routes$ = sources.Router.define(Routes),

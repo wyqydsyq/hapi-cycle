@@ -2,7 +2,7 @@ import {div, form, fieldset, legend, label, input, button, i, strong} from '@cyc
 import {makeHTTPDriver} from '@cycle/http';
 import isolate from '@cycle/isolate';
 import xs from 'xstream';
-import classes from 'dependencies/classes';
+import classes from 'classes';
 
 import styles from '../form/styles.less';
 

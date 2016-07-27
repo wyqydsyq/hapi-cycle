@@ -1,6 +1,6 @@
 import {div, header, footer, nav, img, small, span, h1} from '@cycle/dom'
 import xs from 'xstream'
-import classes from 'dependencies/classes'
+import classes from 'classes'
 
 import styles from './styles.less'
 
@@ -10,7 +10,7 @@ const layout = ({DOM}, view) => {
 			return view;
 		}),
 		render = (content) => {
-			return div('#page', [
+			return div([
 				header([
 					h1('HapiCycle')
 				]),

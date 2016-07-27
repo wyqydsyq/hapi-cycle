@@ -1,7 +1,7 @@
 import {div, label, input} from '@cycle/dom';
 import isolate from '@cycle/isolate';
 import xs from 'xstream';
-import classes from 'dependencies/classes';
+import classes from 'classes';
 
 import styles from '../form/styles.less';
 
