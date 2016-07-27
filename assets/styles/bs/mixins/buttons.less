@@ -5,8 +5,8 @@
 
 .button-variant(@color; @background; @border) {
   font-weight: bold;
-  color: darken(@background, 15%);
-  text-shadow: 0 1px 0 fadeout(@color, 66%), 0 -1px 0 fadeout(contrast(@color, @gray-base, @gray-lighter), 44%);
+  color: lighten(@background, 25%);
+  text-shadow: 0 1px 0 fadeout(contrast(@background, @gray-base, @gray-lighter), 44%);
   background-color: fadeout(@background, 30%);
   border-color: fadeout(@border, 30%);
   transition: background-color .1s ease-in-out, border-color .1s ease-in-out, color .1s ease-in-out;
@@ -23,12 +23,12 @@
   &:focus,
   &.focus {
     outline: none;
-    color: darken(@background, 20%);
+    color: lighten(@background, 20%);
     background-color: fadeout(darken(@background, 10%), 20%);
         border-color: fadeout(darken(@border, 25%), 20%);
   }
   &:hover {
-    color: darken(@background, 20%);
+    color: lighten(@background, 20%);
     background-color: fadeout(darken(@background, 10%), 20%);
         border-color: fadeout(darken(@border, 12%), 20%);
   }

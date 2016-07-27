@@ -9,40 +9,47 @@ import styles from './styles.less'
 import CreateUser from 'components/create-user'
 
 function Welcome (sources) {
-	let createUser = CreateUser(sources),
-		users$ = sources.HTTP.select('user')
+	let createUserForm = CreateUser(sources),
+
+		// normalize incoming user responses
+		userResponse$ = sources.HTTP.select('user')
 			.map(res$ => res$.replaceError(error => {
 				let res = error.res || {body: error, request: {method: null}}
 				res.error = true
 				return xs.of(res)
 			}))
-			.flatten()
+			.flatten(),
+
+		// response from creating a user
+		userCreated$ = createUserForm.created$,
+
+		// response from deleting a user
+		userDeleted$ = userResponse$
+		.filter(res => res.request.method == 'DELETE')
+		.map(res => res.body),
+
+		// response from getting user list
+		userList$ = userResponse$
 			.filter(res => res.request.method == 'GET')
 			.map(res => res.body),
-		deletedUser$ = sources.HTTP.select('user')
-			.map(res$ => res$.replaceError(error => {
-				let res = error.res || {body: error, request: {method: null}}
-				res.error = true
-				return xs.of(res)
-			}))
-			.flatten()
-			.filter(res => res.request.method == 'DELETE')
-			.map(res => res.body),
-		deleteUser$ = sources.DOM.select('button.deleteUser').events('click').map(ev => {
-			return {
-				url: `http://${HOST}/users`,
-				category: 'user',
-				method: 'DELETE',
-				send: {
-					email: ev.currentTarget['data-email']
-				}
+
+		// request to delete a user
+		userDelete$ = sources.DOM.select('button.deleteUser').events('click').map(ev => ({
+			url: `http://${HOST}/users`,
+			category: 'user',
+			method: 'DELETE',
+			send: {
+				email: ev.currentTarget['data-email']
 			}
-		}),
-		getUsers = {
+		})),
+
+		// request to get users
+		getUsersList = {
 			url: `http://${HOST}/users`,
 			category: 'user',
 			method: 'GET'
 		},
+
 		render = ([users, createUserForm]) => {
 			let userList = users => {
 				if (!users.length) {
@@ -57,7 +64,7 @@ function Welcome (sources) {
 							div({class: classes(styles.userDetails)}, [
 								div([strong(['Email: ']), user.email]),
 								div([strong(['Created: ']), user.createdAt]),
-								button('.deleteUser', {props: {
+								button('.deleteUser', {class: classes(styles.deleteUser), props: {
 									'data-email': user.email
 								}}, ['Delete'])
 							])
@@ -74,19 +81,18 @@ function Welcome (sources) {
 		}
 
 	return {
-		DOM: xs.combine(users$, createUser.DOM).map(render),
+		DOM: xs.combine(userList$, createUserForm.DOM).map(render),
 		HTTP: xs.merge(
-			// request users for initial state
-			xs.of(getUsers),
+			xs.of(getUsersList),
 
 			// merge createUser's HTTP sink
-			createUser.HTTP,
+			createUserForm.HTTP,
 
 			// handle deleteUser requests
-			deleteUser$,
+			userDelete$,
 
-			// responses that should map to a refresh
-			xs.merge(createUser.responses$, deletedUser$).mapTo(getUsers)
+			// actions/responses that should trigger a refresh
+			xs.merge(userCreated$, userDeleted$).mapTo(getUsersList)
 		)
 	}
 }

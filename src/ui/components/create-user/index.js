@@ -90,7 +90,6 @@ function CreateUser (sources) {
 		})}),
 
 		render = ([state, email, password]) => {
-
 			return form({class: classes(styles.form, styles.formHorizontal)}, [
 				fieldset([
 					// show alerts if there's any
@@ -125,7 +124,7 @@ function CreateUser (sources) {
 			type: 'application/x-www-form-urlencoded',
 			send: state.data
 		})),
-		responses$: actions.responses$
+		created$: actions.responses$
 	}
 }
 
