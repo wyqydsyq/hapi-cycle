@@ -1,12 +1,12 @@
-import {div, form, fieldset, legend, label, input, button, i, strong} from '@cycle/dom';
-import {makeHTTPDriver} from '@cycle/http';
-import isolate from '@cycle/isolate';
-import xs from 'xstream';
-import classes from 'classes';
+import {div, form, fieldset, legend, label, input, button, i, strong} from '@cycle/dom'
+import {makeHTTPDriver} from '@cycle/http'
+import isolate from '@cycle/isolate'
+import xs from 'xstream'
+import classes from 'classes'
 
-import styles from '../form/styles.less';
+import styles from '../form/styles.less'
 
-import LabelInput from 'components/label-input';
+import LabelInput from 'components/label-input'
 
 const dataIni = {
 	email: '',
@@ -17,7 +17,7 @@ stateIni = {
 	alerts: [],
 	submitting: false,
 	data: dataIni
-};
+}
 
 function action (type, data = {}) {
 	return {
@@ -78,7 +78,6 @@ function model (intent) {
 function CreateUser (sources) {
 	let actions = intent(sources),
 		state$ = model(actions),
-
 		emailField = LabelInput({state$, props$: xs.of({
 			name: 'email',
 			type: 'email',
@@ -126,9 +125,9 @@ function CreateUser (sources) {
 			type: 'application/x-www-form-urlencoded',
 			send: state.data
 		})),
-		responses$: actions.responses$,
-		state$
+		responses$: actions.responses$
 	}
-};
+}
 
+// export default CreateUser
 export default sources => isolate(CreateUser, 'CreateUser')(sources)

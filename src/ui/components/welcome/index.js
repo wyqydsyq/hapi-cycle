@@ -1,6 +1,6 @@
-import {div, h1, p, strong, pre, code, hr, img, button} from '@cycle/dom';
+import {div, h1, p, strong, pre, code, hr, img, button} from '@cycle/dom'
 import {makeHTTPDriver} from '@cycle/http'
-import xs from 'xstream';
+import xs from 'xstream'
 import MD5 from 'crypto-js/md5'
 import classes from 'classes'
 
@@ -19,6 +19,25 @@ function Welcome (sources) {
 			.flatten()
 			.filter(res => res.request.method == 'GET')
 			.map(res => res.body),
+		deletedUser$ = sources.HTTP.select('user')
+			.map(res$ => res$.replaceError(error => {
+				let res = error.res || {body: error, request: {method: null}}
+				res.error = true
+				return xs.of(res)
+			}))
+			.flatten()
+			.filter(res => res.request.method == 'DELETE')
+			.map(res => res.body),
+		deleteUser$ = sources.DOM.select('button.deleteUser').events('click').map(ev => {
+			return {
+				url: `http://${HOST}/users`,
+				category: 'user',
+				method: 'DELETE',
+				send: {
+					email: ev.currentTarget['data-email']
+				}
+			}
+		}),
 		getUsers = {
 			url: `http://${HOST}/users`,
 			category: 'user',
@@ -38,7 +57,9 @@ function Welcome (sources) {
 							div({class: classes(styles.userDetails)}, [
 								div([strong(['Email: ']), user.email]),
 								div([strong(['Created: ']), user.createdAt]),
-								button('.deleteUser', ['Delete'])
+								button('.deleteUser', {props: {
+									'data-email': user.email
+								}}, ['Delete'])
 							])
 						])))
 					]
@@ -50,7 +71,7 @@ function Welcome (sources) {
 				createUserForm,
 				hr()
 			].concat(userList(users)))
-		};
+		}
 
 	return {
 		DOM: xs.combine(users$, createUser.DOM).map(render),
@@ -58,13 +79,16 @@ function Welcome (sources) {
 			// request users for initial state
 			xs.of(getUsers),
 
-			// handle create requests from child form
+			// merge createUser's HTTP sink
 			createUser.HTTP,
 
-			// create responses should map to a refresh
-			createUser.responses$.mapTo(getUsers)
+			// handle deleteUser requests
+			deleteUser$,
+
+			// responses that should map to a refresh
+			xs.merge(createUser.responses$, deletedUser$).mapTo(getUsers)
 		)
 	}
-};
+}
 
 export default Welcome
