@@ -1,4 +1,4 @@
-import {div, h1, p, strong, pre, code, hr, img} from '@cycle/dom';
+import {div, h1, p, strong, pre, code, hr, img, button} from '@cycle/dom';
 import {makeHTTPDriver} from '@cycle/http'
 import xs from 'xstream';
 import MD5 from 'crypto-js/md5'
@@ -20,7 +20,7 @@ function Welcome (sources) {
 			.filter(res => res.request.method == 'GET')
 			.map(res => res.body),
 		getUsers = {
-			url: 'http://localhost:1337/users',
+			url: '/users',
 			category: 'user',
 			method: 'GET'
 		},
@@ -37,7 +37,8 @@ function Welcome (sources) {
 							}})]),
 							div({class: classes(styles.userDetails)}, [
 								div([strong(['Email: ']), user.email]),
-								div([strong(['Created: ']), user.createdAt])
+								div([strong(['Created: ']), user.createdAt]),
+								button('.deleteUser', ['Delete'])
 							])
 						])))
 					]
@@ -50,6 +51,7 @@ function Welcome (sources) {
 				hr()
 			].concat(userList(users)))
 		};
+
 	return {
 		DOM: xs.combine(users$, createUser.DOM).map(render),
 		HTTP: xs.merge(
@@ -60,9 +62,7 @@ function Welcome (sources) {
 			createUser.HTTP,
 
 			// create responses should map to a refresh
-			sources.HTTP.select('user').flatten()
-				.filter(r => r.request.method == 'POST')
-				.mapTo(getUsers)
+			createUser.responses$.mapTo(getUsers)
 		)
 	}
 };

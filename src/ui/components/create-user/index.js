@@ -48,29 +48,29 @@ function intent ({DOM, HTTP}) {
 function model (intent) {
 	return xs.merge(
 		intent.input$.map(action => state => {
-			state.data[action.effect.target] = action.effect.value;
-			return state;
+			state.data[action.effect.target] = action.effect.value
+			return state
 		}),
 		intent.submit$.map(action => state => {
 			state.submitting = true;
 			state.alerts = [];
 
-			return state;
+			return state
 		}),
 		intent.responses$.map(action => state => {
-			state.submitting = false;
+			state.submitting = false
 
 			let alert = {
 				title: action.effect.title || '',
 				text: action.effect.text
-			};
+			}
 
-			if (action.effect.success) alert.className = 'alert-success';
-			else alert.className = 'alert-danger';
+			if (action.effect.success) alert.className = 'alert-success'
+			else alert.className = 'alert-danger'
 
-			state.alerts.push(alert);
+			state.alerts.push(alert)
 
-			return state;
+			return state
 		})
 	).fold((state, method) => method(state), stateIni)
 }
@@ -105,7 +105,7 @@ function CreateUser (sources) {
 					email,
 					password,
 					div([
-						button({class: classes(styles.submit), props: {type: 'button', disabled: state.submitting}}, [
+						button('.createUser', {class: classes(styles.submit), props: {type: 'button', disabled: state.submitting}}, [
 							(state.submitting
 								? i({class: classes(styles.fa, styles.faSpinner, styles.faSpin)})
 								: i({class: classes(styles.fa, styles.faUserPlus)})
@@ -119,15 +119,18 @@ function CreateUser (sources) {
 
 	return {
 		DOM: xs.combine(state$, emailField.DOM, passwordField.DOM).map(render),
-		HTTP: xs.combine(state$.take(1), actions.submit$).map(([state, action]) => ({
-			url: 'http://localhost:1337/users',
+		HTTP: xs.combine(actions.submit$, state$.take(1)).map(([action, state]) => ({
+			url: '/users',
 			category: 'user',
 			method: 'POST',
 			type: 'application/x-www-form-urlencoded',
 			send: state.data
 		})),
+		submit$: actions.submit$,
+		responses$: actions.responses$,
 		state$
 	}
 };
 
-export default CreateUser
+// export default CreateUser
+export default sources => isolate(CreateUser, 'CreateUser')(sources)

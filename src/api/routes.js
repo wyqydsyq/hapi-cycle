@@ -17,5 +17,10 @@ export default [
 		method: 'GET',
 		path: '/users',
 		handler: 'users/show'
+	},
+	{
+		method: 'DELETE',
+		path: '/users',
+		handler: 'users/delete'
 	}
 ]
