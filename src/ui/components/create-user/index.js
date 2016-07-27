@@ -32,9 +32,9 @@ function intent ({DOM, HTTP}) {
 		submit$: DOM.select('button').events('click').map(ev => action('submit', {target: ev.target.name})),
 		responses$: HTTP.select('user')
 			.map(response$ => response$.replaceError(error => {
-				let res = error.response;
-				res.error = true;
-				return xs.of(res);
+				let res = error.response || {body: error, request: {method: null}}
+				res.error = true
+				return xs.of(res)
 			}))
 			.flatten()
 			.filter(r => r.request.method == 'POST')
@@ -52,8 +52,8 @@ function model (intent) {
 			return state
 		}),
 		intent.submit$.map(action => state => {
-			state.submitting = true;
-			state.alerts = [];
+			state.submitting = true
+			state.alerts = []
 
 			return state
 		}),
@@ -120,13 +120,12 @@ function CreateUser (sources) {
 	return {
 		DOM: xs.combine(state$, emailField.DOM, passwordField.DOM).map(render),
 		HTTP: xs.combine(actions.submit$, state$.take(1)).map(([action, state]) => ({
-			url: `//${HOST}/users`,
+			url: `http://${HOST}/users`,
 			category: 'user',
 			method: 'POST',
 			type: 'application/x-www-form-urlencoded',
 			send: state.data
 		})),
-		submit$: actions.submit$,
 		responses$: actions.responses$,
 		state$
 	}

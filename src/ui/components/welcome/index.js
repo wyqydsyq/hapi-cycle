@@ -12,7 +12,7 @@ function Welcome (sources) {
 	let createUser = CreateUser(sources),
 		users$ = sources.HTTP.select('user')
 			.map(res$ => res$.replaceError(error => {
-				let res = error.res
+				let res = error.res || {body: error, request: {method: null}}
 				res.error = true
 				return xs.of(res)
 			}))
@@ -20,7 +20,7 @@ function Welcome (sources) {
 			.filter(res => res.request.method == 'GET')
 			.map(res => res.body),
 		getUsers = {
-			url: `//${HOST}/users`,
+			url: `http://${HOST}/users`,
 			category: 'user',
 			method: 'GET'
 		},
