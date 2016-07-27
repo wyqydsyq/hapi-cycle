@@ -15,6 +15,8 @@ import createHistory from 'history/lib/createMemoryHistory'
 import App from './ui/app'
 import Boilerplate from './boilerplate.js'
 
+import routes from './api/routes'
+
 const server = new Hapi.Server()
 
 server.connection({
@@ -73,14 +75,13 @@ server.register([
 		}
 	})
 
-	server.route({
-		method: 'GET',
-		path: '/build/{param*}',
-		handler: {
-			directory: {
-				path: '.tmp'
-			}
+	// add API routes
+	routes.forEach(route => {
+		if (typeof route.handler == 'string') {
+			route.handler = require('./api/handlers/' + route.handler).default
 		}
+		
+		server.route(route)
 	})
 
 	server.dogwater({
@@ -89,31 +90,6 @@ server.register([
 		attributes: {
 			email: 'string',
 			password: 'string',
-		}
-	})
-
-	server.route({
-		method: 'POST',
-		path: '/users',
-		handler: (req, res) => {
-			const Users = server.collections().users
-
-			Users.create([{
-				email: req.payload.email,
-				password: req.payload.password,
-			}]).then(user => res(user))
-		}
-	})
-
-	server.route({
-		method: 'GET',
-		path: '/users',
-		handler: (req, res) => {
-			const Users = server.collections().users
-
-			Users.find().then(users => {
-				return res(users)
-			})
 		}
 	})
 

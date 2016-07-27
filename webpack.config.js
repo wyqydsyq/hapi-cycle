@@ -55,7 +55,7 @@ var config = {
         loaders: commonLoaders
     },
     resolve: {
-        modulesDirectories: ['node_modules', 'src/ui', 'assets'],
+        modulesDirectories: ['node_modules', 'src/lib', 'src/ui', 'assets'],
         extensions: ['', '.js', '.node', '.less', '.json']
     },
 	assets: {}
