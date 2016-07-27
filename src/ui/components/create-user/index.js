@@ -120,7 +120,7 @@ function CreateUser (sources) {
 	return {
 		DOM: xs.combine(state$, emailField.DOM, passwordField.DOM).map(render),
 		HTTP: xs.combine(actions.submit$, state$.take(1)).map(([action, state]) => ({
-			url: '/users',
+			url: `//${HOST}/users`,
 			category: 'user',
 			method: 'POST',
 			type: 'application/x-www-form-urlencoded',
@@ -132,5 +132,4 @@ function CreateUser (sources) {
 	}
 };
 
-// export default CreateUser
 export default sources => isolate(CreateUser, 'CreateUser')(sources)

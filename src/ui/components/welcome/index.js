@@ -20,7 +20,7 @@ function Welcome (sources) {
 			.filter(res => res.request.method == 'GET')
 			.map(res => res.body),
 		getUsers = {
-			url: '/users',
+			url: `//${HOST}/users`,
 			category: 'user',
 			method: 'GET'
 		},

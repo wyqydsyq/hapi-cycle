@@ -1,6 +1,8 @@
 {
   "name": "hapicycle",
   "version": "0.0.1",
+  "hostname": "localhost",
+  "port": "1337",
   "description": "HapiCycle",
   "main": ".tmp/server.js",
   "scripts": {

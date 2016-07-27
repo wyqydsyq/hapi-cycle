@@ -20,8 +20,8 @@ import routes from './api/routes'
 const server = new Hapi.Server()
 
 server.connection({
-	host: 'localhost',
-	port: 1337
+	host: HOSTNAME,
+	port: PORT
 });
 
 server.register([
@@ -80,7 +80,7 @@ server.register([
 		if (typeof route.handler == 'string') {
 			route.handler = require('./api/handlers/' + route.handler).default
 		}
-		
+
 		server.route(route)
 	})
 
