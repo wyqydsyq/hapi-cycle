@@ -3,6 +3,7 @@ import {makeHTTPDriver} from '@cycle/http'
 import isolate from '@cycle/isolate'
 import xs from 'xstream'
 import classes from 'classes'
+import action from 'action'
 
 import styles from '../form/styles.less'
 
@@ -17,13 +18,6 @@ stateIni = {
 	alerts: [],
 	submitting: false,
 	data: dataIni
-}
-
-function action (type, data = {}) {
-	return {
-		type,
-		effect: data
-	}
 }
 
 function intent ({DOM, HTTP}) {
