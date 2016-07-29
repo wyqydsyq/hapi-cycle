@@ -4,9 +4,12 @@ import Routes from './routes'
 function App (sources) {
     const routes$ = sources.Router.define(Routes),
         page$ = routes$.map(
-            ({path, value}) => value(Object.assign({}, sources, {
-                Router: sources.Router.path(path)
-            }))
+            ({path, value}) => {
+                console.log(path)
+                return value(Object.assign({}, sources, {
+                    Router: sources.Router.path(path)
+                }))
+            }
         )
 
     return {

@@ -108,7 +108,8 @@ function CreateUser (sources) {
 								? i({class: classes(styles.fa, styles.faSpinner, styles.faSpin)})
 								: i({class: classes(styles.fa, styles.faUserPlus)})
 							),
-							state.submitting ? ' Creating...' : ' Create'
+							' ',
+							state.submitting ? 'Creating...' : 'Create'
 						])
 					])
 				])
@@ -118,7 +119,7 @@ function CreateUser (sources) {
 	return {
 		DOM: xs.combine(state$, emailField.DOM, passwordField.DOM).map(render),
 		HTTP: xs.combine(actions.submit$, state$.take(1)).map(([action, state]) => ({
-			url: `http://${HOST}/users`,
+			url: `http://${HOST}/api/users`,
 			category: 'user',
 			method: 'POST',
 			type: 'application/x-www-form-urlencoded',

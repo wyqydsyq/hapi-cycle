@@ -35,7 +35,7 @@ function Welcome (sources) {
 
 		// request to delete a user
 		userDelete$ = sources.DOM.select('button.deleteUser').events('click').map(ev => ({
-			url: `http://${HOST}/users`,
+			url: `http://${HOST}/api/users`,
 			category: 'user',
 			method: 'DELETE',
 			send: {
@@ -45,7 +45,7 @@ function Welcome (sources) {
 
 		// request to get users
 		getUsersList = {
-			url: `http://${HOST}/users`,
+			url: `http://${HOST}/api/users`,
 			category: 'user',
 			method: 'GET'
 		},

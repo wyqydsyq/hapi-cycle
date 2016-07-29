@@ -60,13 +60,23 @@ server.register([
 ], err => {
 	if (err) throw err
 
+	// add API routes
+	routes.forEach(route => {
+		if (typeof route.handler == 'string') {
+			route.handler = require('./api/handlers/' + route.handler).default
+			route.path = '/api' + route.path
+		}
+
+		server.route(route)
+	})
+
 	server.route({
 		method: 'GET',
 		path: '/{route*}',
 		handler: (req, res) => {
 			const context = createHistory()
-			context.replace(req.url)
-
+			context.replace(req.params.route)
+			
 			Cycle.run(sources => Boilerplate(sources, App), {
 				DOM: makeHTMLDriver(html => res('<!DOCTYPE html>' + html)),
 				HTTP: makeHTTPDriver(),
@@ -75,13 +85,14 @@ server.register([
 		}
 	})
 
-	// add API routes
-	routes.forEach(route => {
-		if (typeof route.handler == 'string') {
-			route.handler = require('./api/handlers/' + route.handler).default
+	server.route({
+		method: 'GET',
+		path: '/build/{param*}',
+		handler: {
+			directory: {
+				path: '.tmp'
+			}
 		}
-
-		server.route(route)
 	})
 
 	server.dogwater({
