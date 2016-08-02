@@ -16,6 +16,7 @@
   "author": "Damon Poole",
   "license": "ISC",
   "dependencies": {
+    "@cycle/collection": "^0.3.0",
     "@cycle/dom": "^10.1.0",
     "@cycle/http": "^9.0.2",
     "@cycle/isolate": "^1.4.0",

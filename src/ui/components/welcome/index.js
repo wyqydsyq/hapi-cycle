@@ -7,10 +7,8 @@ import UserList from 'components/user-list'
 
 function Welcome (sources) {
 	let createUserForm = CreateUser(sources),
-		userList = UserList(Object.assign(sources, {refresh$: createUserForm.created$})),
-
-		// response from creating a user
 		userCreated$ = createUserForm.created$,
+		userList = UserList(Object.assign({}, sources, {refresh$: userCreated$})),
 
 		render = ([createUser, users]) => {
 			return div([

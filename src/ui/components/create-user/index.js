@@ -24,6 +24,12 @@ function intent ({DOM, HTTP}) {
 	return {
 		input$: DOM.select('input').events('input').map(ev => action('input', {target: ev.target.name, value: ev.target.value})),
 		submit$: DOM.select('button').events('click').map(ev => action('submit', {target: ev.target.name})),
+
+		clicks$: DOM.select('button').events('click').map(ev => {
+			console.log('clickydoo: ', ev)
+			return ev
+		}),
+
 		responses$: HTTP.select('user')
 			.map(response$ => response$.replaceError(error => {
 				let res = error.response || {body: error, request: {method: null}}
@@ -124,4 +130,4 @@ function CreateUser (sources) {
 }
 
 // export default CreateUser
-export default sources => isolate(CreateUser, 'CreateUser')(sources)
+export default sources => isolate(CreateUser)(sources)

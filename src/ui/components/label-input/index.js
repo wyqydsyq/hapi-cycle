@@ -1,9 +1,9 @@
-import {div, label, input} from '@cycle/dom';
-import isolate from '@cycle/isolate';
-import xs from 'xstream';
-import classes from 'classes';
+import {div, label, input} from '@cycle/dom'
+import isolate from '@cycle/isolate'
+import xs from 'xstream'
+import classes from 'classes'
 
-import styles from '../form/styles.less';
+import styles from '../form/styles.less'
 
 function LabelInput ({props$, state$}) {
 	let vtree$ = xs.combine(props$, state$).map(([props, state]) => {
@@ -17,6 +17,6 @@ function LabelInput ({props$, state$}) {
 		DOM: vtree$,
 		props$
 	}
-};
+}
 
-export default sources => isolate(LabelInput)(sources);
+export default sources => isolate(LabelInput)(sources)
