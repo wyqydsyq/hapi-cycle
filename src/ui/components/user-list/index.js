@@ -21,14 +21,18 @@ function UserList (sources) {
 			.flatten(),
 
 		// response from getting user list
-		userList$ = userResponse$
+		users$ = userResponse$
 			.filter(res => res.request.method == 'GET')
-			.map(res => res.body),
+			.map(res => res.body.map(user => ({
+				id: user.id,
+				user$: user
+			})
+		)),
 
-		userProfiles$ = Collection(UserProfile, sources, xs.of({userList$}), user => user.userDeleted$)
+		userProfiles$ = Collection.gather(UserProfile, sources, users$)
 
 	return {
-		DOM: Collection.pluck(userProfiles$, profile => profile.DOM).map(profiles => { console.log('Profiles: ', profiles)
+		DOM: Collection.pluck(userProfiles$, profile => profile.DOM).map(profiles => {
 				if (!profiles.length) {
 					return div('Your ORM doesn\'t have any users yet.')
 				} else {
@@ -44,7 +48,7 @@ function UserList (sources) {
 			Collection.merge(userProfiles$, user => user.HTTP),
 
 			// actions that trigger refreshes
-			xs.merge(sources.refresh$, Collection.merge(userProfiles$, user => user.userDeleted$)).mapTo(getUsers)
+			xs.merge(sources.refresh$, Collection.merge(userProfiles$, user => user.removed$)).mapTo(getUsers)
 		)
 	}
 }

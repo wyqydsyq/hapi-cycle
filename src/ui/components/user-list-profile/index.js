@@ -8,9 +8,8 @@ import normalizeHTTPErrors from 'normalizeHTTPErrors'
 
 import styles from './styles.less'
 
-function UserProfile (sources) { console.log('sources: ', sources)
-	let userList$ = sources.userList$,
-		userDelete$ = sources.DOM.select('button').events('click').map(ev => ({
+function UserProfile ({DOM, HTTP, user$}) {
+	let remove$ = DOM.select('button').events('click').map(ev => ({
 				url: `http://${HOST}/api/users`,
 				category: 'user',
 				method: 'DELETE',
@@ -18,15 +17,15 @@ function UserProfile (sources) { console.log('sources: ', sources)
 					email: ev.currentTarget['data-email']
 				}
 			})),
-		userDeleted$ = sources.HTTP.select('user')
+		removed$ = HTTP.select('user')
 			.map(normalizeHTTPErrors)
 			.flatten()
 			.filter(res => res.request.method == 'DELETE')
 			.map(res => res.body);
 
 	return {
-		DOM: userList$.map(users => div(users.map(user => { console.log('user: ', user)
-			return div({class: classes(styles.userProfile)}, [
+		DOM: user$.map(user =>
+			div({class: classes(styles.userProfile)}, [
 				div({class: classes(styles.userGravatar)}, [img({attrs: {
 					src: 'https://www.gravatar.com/avatar/' + MD5(user.email.toLowerCase().trim())
 				}})]),
@@ -37,11 +36,10 @@ function UserProfile (sources) { console.log('sources: ', sources)
 						'data-email': user.email
 					}}, ['Delete'])
 				])
-			])
-		}))),
-		HTTP: userDelete$,
-		userDelete$,
-		userDeleted$
+			])),
+		HTTP: remove$,
+		remove$,
+		removed$
 	}
 }
 
