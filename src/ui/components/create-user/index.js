@@ -5,8 +5,9 @@ import xs from 'xstream'
 import classes from 'classes'
 import action from 'action'
 
-import styles from '../form/styles.less'
+import styles from 'components/form/styles'
 
+import Alerts from 'components/alerts'
 import LabelInput from 'components/label-input'
 
 const dataIni = {
@@ -24,12 +25,6 @@ function intent ({DOM, HTTP}) {
 	return {
 		input$: DOM.select('input').events('input').map(ev => action('input', {target: ev.target.name, value: ev.target.value})),
 		submit$: DOM.select('button').events('click').map(ev => action('submit', {target: ev.target.name})),
-
-		clicks$: DOM.select('button').events('click').map(ev => {
-			console.log('clickydoo: ', ev)
-			return ev
-		}),
-
 		responses$: HTTP.select('user')
 			.map(response$ => response$.replaceError(error => {
 				let res = error.response || {body: error, request: {method: null}}
@@ -40,7 +35,8 @@ function intent ({DOM, HTTP}) {
 			.filter(r => r.request.method == 'POST')
 			.map(res => action('response', {
 				success: (typeof res.error == 'undefined' || !res.error),
-				text: ((typeof res.error == 'undefined' || !res.error) && res.body.length) ? 'User created.' : 'An unknown error occured, please try again later.'
+				title: 'Created',
+				text: ((typeof res.error == 'undefined' || !res.error) && res.body.length) ? 'User ' + res.body[0].email + ' created with ID ' + res.body[0].id + '.' : 'An unknown error occured, please try again later.'
 			}))
 	}
 }
@@ -53,23 +49,10 @@ function model (intent) {
 		}),
 		intent.submit$.map(action => state => {
 			state.submitting = true
-			state.alerts = []
-
 			return state
 		}),
 		intent.responses$.map(action => state => {
 			state.submitting = false
-
-			let alert = {
-				title: action.effect.title || '',
-				text: action.effect.text
-			}
-
-			if (action.effect.success) alert.className = 'alert-success'
-			else alert.className = 'alert-danger'
-
-			state.alerts.push(alert)
-
 			return state
 		})
 	).fold((state, method) => method(state), stateIni)
@@ -78,6 +61,7 @@ function model (intent) {
 function CreateUser (sources) {
 	let actions = intent(sources),
 		state$ = model(actions),
+		alerts$ = state$.map(state => state.alerts).startWith([]),
 		emailField = LabelInput({state$, props$: xs.of({
 			name: 'email',
 			type: 'email',
@@ -92,13 +76,6 @@ function CreateUser (sources) {
 		render = ([state, email, password]) => {
 			return form({class: classes(styles.form, styles.formHorizontal)}, [
 				fieldset([
-					// show alerts if there's any
-					state.alerts.length ? div('.alerts',
-						state.alerts.map(alert => div({class: classes(styles.alert, styles[alert.className || 'alert-info'])}, [
-							(typeof alert.title != 'undefined' && alert.title) ? strong(alert.title): '',
-							alert.text
-						]))
-					) : '',
 					legend({class: classes(styles.legend)}, 'Create User'),
 					email,
 					password,
@@ -125,9 +102,21 @@ function CreateUser (sources) {
 			type: 'application/x-www-form-urlencoded',
 			send: state.data
 		})),
-		created$: actions.responses$
+		created$: actions.responses$,
+		alerts$: actions.responses$.map(action => {
+
+			let alert = {
+				title: action.effect.title || '',
+				text: action.effect.text
+			}
+
+			alert.className = (action.effect.success)
+				? 'alert-success'
+				: 'alert-danger'
+
+			return alert
+		})
 	}
 }
 
-// export default CreateUser
 export default sources => isolate(CreateUser)(sources)

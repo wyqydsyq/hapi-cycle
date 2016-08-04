@@ -5,4 +5,4 @@ function classes (...args) {
   }, {})
 }
 
-export default classes;
+export default classes

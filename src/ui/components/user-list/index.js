@@ -49,7 +49,8 @@ function UserList (sources) {
 
 			// actions that trigger refreshes
 			xs.merge(sources.refresh$, Collection.merge(userProfiles$, user => user.removed$)).mapTo(getUsers)
-		)
+		),
+		alerts$: Collection.merge(userProfiles$, profile => profile.alerts$)
 	}
 }
 

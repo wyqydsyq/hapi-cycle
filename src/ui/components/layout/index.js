@@ -2,9 +2,9 @@ import {div, header, footer, nav, img, small, span, h1} from '@cycle/dom'
 import xs from 'xstream'
 import classes from 'classes'
 
-import styles from './styles.less'
+import styles from './styles'
 
-const layout = ({DOM}, view) => {
+const layout = ({DOM, view}) => {
 	let externalLinkClick$ = DOM.select('a[rel="external"]').events('click').map(ev => {
 			ev.target.target = '_blank';
 			return view;

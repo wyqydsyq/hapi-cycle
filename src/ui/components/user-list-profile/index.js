@@ -14,14 +14,20 @@ function UserProfile ({DOM, HTTP, user$}) {
 				category: 'user',
 				method: 'DELETE',
 				send: {
-					email: ev.currentTarget['data-email']
+					id: ev.currentTarget['data-id']
 				}
 			})),
 		removed$ = HTTP.select('user')
 			.map(normalizeHTTPErrors)
 			.flatten()
 			.filter(res => res.request.method == 'DELETE')
-			.map(res => res.body);
+			.map(res => res.body),
+		alerts$ = removed$.map(users => {
+			return {
+				title: 'Deleted',
+				text: 'User ' + users[0].email + ' deleted.'
+			}
+		});
 
 	return {
 		DOM: user$.map(user =>
@@ -33,15 +39,14 @@ function UserProfile ({DOM, HTTP, user$}) {
 					div([strong(['Email: ']), user.email]),
 					div([strong(['Created: ']), user.createdAt]),
 					button('.deleteUser', {class: classes(styles.deleteUser), props: {
-						'data-email': user.email
+						'data-id': user.id
 					}}, ['Delete'])
 				])
 			])),
 		HTTP: remove$,
-		remove$,
-		removed$
+		removed$,
+		alerts$
 	}
 }
 
-// export default UserProfile
 export default sources => isolate(UserProfile)(sources)

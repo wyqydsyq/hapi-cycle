@@ -2,17 +2,19 @@ import {div, h1, p, strong, pre, code, hr, img, button} from '@cycle/dom'
 import xs from 'xstream'
 import classes from 'classes'
 
+import Alerts from 'components/alerts'
 import CreateUser from 'components/create-user'
 import UserList from 'components/user-list'
 
 function Welcome (sources) {
 	let createUserForm = CreateUser(sources),
-		created$ = createUserForm.created$,
-		userList = UserList(Object.assign({}, sources, {refresh$: created$, created$})),
+		userList = UserList(Object.assign({}, sources, {refresh$: createUserForm.created$})),
+		alerts = Alerts({DOM: sources.DOM, add$: xs.merge(createUserForm.alerts$, userList.alerts$)}),
 
-		render = ([createUser, users]) => {
+		render = ([alerts, createUser, users]) => {
 			return div([
 				h1('Welcome to your new HapiCycle application!'),
+				alerts,
 				createUser,
 				hr(),
 				users
@@ -20,7 +22,7 @@ function Welcome (sources) {
 		}
 
 	return {
-		DOM: xs.combine(createUserForm.DOM, userList.DOM).map(render),
+		DOM: xs.combine(alerts.DOM, createUserForm.DOM, userList.DOM).map(render),
 		HTTP: xs.merge(
 
 			// merge createUser's HTTP sink

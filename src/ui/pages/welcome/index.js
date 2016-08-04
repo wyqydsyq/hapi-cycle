@@ -6,7 +6,7 @@ import Welcome from 'components/welcome';
 
 function WelcomePage (sources) {
     let view = Welcome(sources),
-        page = Layout(sources, view);
+        page = Layout(Object.assign({}, sources, {view}));
 
     return page;
 };
