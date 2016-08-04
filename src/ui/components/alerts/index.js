@@ -3,8 +3,9 @@ import xs from 'xstream'
 import delay from 'xstream/extra/delay'
 import classes from 'classes'
 import {animationEnd} from 'DOMEvents'
-
+import computedStyle from 'computed-style'
 import animate from 'styles/animate'
+
 import styles from './styles'
 
 function expiryTimer (alert) {
@@ -13,8 +14,25 @@ function expiryTimer (alert) {
 
 function Alerts ({add$, timeout = 5, DOM}) {
 	let transitions = {
-			in: [animate.bounceIn],
-			out: [animate.bounceOut]
+			in: [animate.flipInX],
+			out: [animate.flipOutX]
+		},
+
+		props = {
+			class: classes(styles.alerts),
+			style: {
+				height: '0px',
+				transition: 'height .5s ease-in-out',
+				transitionDelay: '.5s'
+			},
+			hook: {
+				postpatch: (old, vnode) => vnode.elm.style.height = Array.from(vnode.children).reduce((acc, child) =>
+					Number.parseInt(acc)
+					+ Number.parseInt(computedStyle(child.elm, 'height'))
+					+ Number.parseInt(computedStyle(child.elm, 'marginTop'))
+					+ Number.parseInt(computedStyle(child.elm, 'marginBottom'))
+				, 0) + 'px'
+			}
 		},
 
 		// add incoming alerts and set their key & expiry time
@@ -32,10 +50,14 @@ function Alerts ({add$, timeout = 5, DOM}) {
 
 		// render whatever alerts we're left with
 		render = (alerts) => alerts.length
-			? div('.alerts', {class: classes(styles.alerts)}, alerts.map(alert =>
+			? div('.alerts', props, alerts.map(alert =>
 				div({
 					key: alert.key,
 					class: classes(styles.alert, styles[alert.className || 'alertInfo']),
+					style: {
+						animationDuration: '.5s',
+						animationDelay: '.5s'
+					},
 					hook: {
 						insert: (vnode) => {
 							vnode.elm.classList.add(...[...transitions.in, animate.animated])
@@ -58,7 +80,7 @@ function Alerts ({add$, timeout = 5, DOM}) {
 					])
 				)
 			)
-			: div('.alerts', {class: classes(styles.alerts)})
+			: div('.alerts', props, [])
 
 	return {
 		DOM: alerts$.map(render)

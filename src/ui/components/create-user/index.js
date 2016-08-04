@@ -8,7 +8,7 @@ import action from 'action'
 import styles from 'components/form/styles'
 
 import Alerts from 'components/alerts'
-import LabelInput from 'components/label-input'
+import LabelInput from 'components/form/label-input'
 
 const dataIni = {
 	email: '',
