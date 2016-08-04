@@ -13,14 +13,18 @@ Features / Libraries included
  * **[Cycle.js](http://cycle.js.org/)**
  * **[Hapi](http://hapijs.com/)** API/server configured to render your Cycle.js app on the server-side
  * **[Waterline ORM](https://github.com/balderdashy/waterline)** via **[Dogwater](https://github.com/devinivy/dogwater)**, preconfigured with Memory adapter
- * A skeleton Cycle app under `./src/ui/` providing basic user CRUD functionality as an example/starting point for your app
+ * A skeleton Cycle app under `./src/ui/` providing basic user CRUD functionality as an example/starting point for your app. Includes a bunch of helpful components such as:
+   * `./src/ui/components/alerts` – Alerts that automatically dismiss after an elapsed time
+   * `./src/ui/components/label-input` – Inputs with label elements that behave like the HTML5 `placeholder` attribute, but with animations and better accessibility
+   * `./src/ui/components/layout` – A layout wrapper component that wraps your pages with a common layout VTree
  * **[Webpack](http://webpack.github.io/)** preconfigured with:
    * **[HMR](https://webpack.github.io/docs/hot-module-replacement.html)**
    * [less-loader](https://www.npmjs.com/package/less-loader) to automatically transpile any LESS your components `import`
    * [css-loader](https://www.npmjs.com/package/css-loader) with **[CSS Modules](https://github.com/css-modules/css-modules)** enabled
-   * [babel-loader](https://www.npmjs.com/package/babel-loader) for **[ES2015](https://babeljs.io/docs/learn-es2015/)** support
+   * [babel-loader](https://www.npmjs.com/package/babel-loader) with `babel-preset-es2015` for **[ES2015](https://babeljs.io/docs/learn-es2015/)** support and `babel-polyfill` for old browser support
  * [Bootstrap](http://getbootstrap.com/)'s LESS source is included by default, if you don't want it just run: `rm -rf ./assets/styles/bs/`
  * [Animate.css](https://daneden.github.io/animate.css/) for easy transitions
+ * [FontAwesome](http://fontawesome.io/) for easy to use vector icons
 
 Getting Started
 ---
