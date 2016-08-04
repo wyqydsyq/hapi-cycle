@@ -1,5 +1,7 @@
-import WelcomePage from 'pages/welcome';
+import WelcomePage from 'pages/welcome'
+import ExamplePage from 'pages/example'
 
 export default {
-	'/': WelcomePage
+	'/': WelcomePage,
+	'/example': ExamplePage
 }
