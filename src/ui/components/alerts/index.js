@@ -2,8 +2,7 @@ import {div, h4, small} from '@cycle/dom'
 import xs from 'xstream'
 import delay from 'xstream/extra/delay'
 import classes from 'classes'
-import {animationEnd} from 'DOMEvents'
-import computedStyle from 'computed-style'
+import {animationEnd, transitionHeight} from 'DOMEvents'
 import animate from 'styles/animate'
 
 import styles from './styles'
@@ -21,17 +20,11 @@ function Alerts ({add$, timeout = 5, DOM}) {
 		props = {
 			class: classes(styles.alerts),
 			style: {
-				height: '0px',
-				transition: 'height .5s ease-in-out',
-				transitionDelay: '.5s'
+				transitionProprty: 'height margin',
+				transitionDuration: '.5s'
 			},
 			hook: {
-				postpatch: (old, vnode) => vnode.elm.style.height = Array.from(vnode.children).reduce((acc, child) =>
-					Number.parseInt(acc)
-					+ Number.parseInt(computedStyle(child.elm, 'height'))
-					+ Number.parseInt(computedStyle(child.elm, 'marginTop'))
-					+ Number.parseInt(computedStyle(child.elm, 'marginBottom'))
-				, 0) + 'px'
+				postpatch: transitionHeight
 			}
 		},
 
@@ -54,10 +47,6 @@ function Alerts ({add$, timeout = 5, DOM}) {
 				div({
 					key: alert.key,
 					class: classes(styles.alert, styles[alert.className || 'alertInfo']),
-					style: {
-						animationDuration: '.5s',
-						animationDelay: '.5s'
-					},
 					hook: {
 						insert: (vnode) => {
 							vnode.elm.classList.add(...[...transitions.in, animate.animated])

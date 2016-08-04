@@ -3,6 +3,7 @@ import xs from 'xstream'
 import classes from 'classes'
 import action from 'action'
 import normalizeHTTPErrors from 'normalizeHTTPErrors'
+import {animationEnd, transitionHeight} from 'DOMEvents'
 import computedStyle from 'computed-style'
 import Collection from '@cycle/collection'
 
@@ -35,27 +36,22 @@ function UserList (sources) {
 	return {
 		DOM: Collection.pluck(userProfiles$, profile => profile.DOM).map(profiles => {
 			let message = (!profiles.length)
-					? `Your ORM doesn't have any users yet.`
-					: `Your ORM has the following users:`
+				? `Your ORM doesn't have any users yet.`
+				: `Your ORM has the following users:`
 
-				return div([
-					p(message),
-					div('.userList', {
-						style: {
-							height: '0px',
-							transition: 'height .5s ease-in-out',
-							transitionDelay: '.5s'
-						},
-						hook: {
-							postpatch: (old, vnode) => vnode.elm.style.height = Array.from(vnode.children).reduce((acc, child) =>
-								Number.parseInt(acc)
-								+ Number.parseInt(computedStyle(child.elm, 'height'))
-								+ Number.parseInt(computedStyle(child.elm, 'marginTop'))
-							, 0) + 'px'
-						}
-					}, profiles)
-				])
-			}),
+			return div([
+				p(message),
+				div('.userList', {
+					style: {
+						transitionProprty: 'height margin',
+						transitionDuration: '.5s'
+					},
+					hook: {
+						postpatch: transitionHeight
+					}
+				}, profiles)
+			])
+		}),
 		HTTP: xs.merge(
 			xs.of(getUsers),
 
