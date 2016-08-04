@@ -17,23 +17,24 @@ function Alerts ({add$, timeout = 5, DOM}) {
 			out: [animate.bounceOut]
 		},
 
-		// add incoming alerts and set their expiry time
+		// add incoming alerts and set their key & expiry time
 		list$ = add$.fold((list, alert) => {
+				alert.key = list.length
 				alert.expiresAt = Date.now() / 1000 + timeout
 				list.push(alert)
 				return list
 			}, []),
 
 		// filter added alerts to ones that haven't expired
-		alerts$ = xs.combine(list$, xs.periodic(1000))
+		alerts$ = xs.combine(list$, xs.periodic(250))
 			.map(([list]) => list.filter((alert, index) => expiryTimer(alert) > 0))
 			.startWith([]),
 
 		// render whatever alerts we're left with
 		render = (alerts) => alerts.length
-			? div('.alerts', {class: classes(styles.alerts)}, alerts.map((alert, index) =>
+			? div('.alerts', {class: classes(styles.alerts)}, alerts.map(alert =>
 				div({
-					key: index,
+					key: alert.key,
 					class: classes(styles.alert, styles[alert.className || 'alertInfo']),
 					hook: {
 						insert: (vnode) => {
@@ -51,7 +52,7 @@ function Alerts ({add$, timeout = 5, DOM}) {
 				}, [
 						h4([
 							(typeof alert.title != 'undefined' && alert.title) ? alert.title : '',
-							small({style: {float: 'right'}}, ['Expiring in ' + expiryTimer(alert) + 's'])
+							small({style: {float: 'right'}}, ['Dismissing in ' + expiryTimer(alert) + 's'])
 						]),
 						alert.text
 					])
