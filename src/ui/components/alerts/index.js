@@ -11,7 +11,7 @@ function expiryTimer (alert) {
 	return Math.round(alert.expiresAt - Date.now() / 1000)
 }
 
-function Alerts ({add$, DOM}) {
+function Alerts ({add$, timeout = 5, DOM}) {
 	let transitions = {
 			in: [animate.bounceIn],
 			out: [animate.bounceOut]
@@ -19,7 +19,7 @@ function Alerts ({add$, DOM}) {
 
 		// add incoming alerts and set their expiry time
 		list$ = add$.fold((list, alert) => {
-				alert.expiresAt = Date.now() / 1000 + 5
+				alert.expiresAt = Date.now() / 1000 + timeout
 				list.push(alert)
 				return list
 			}, []),
