@@ -29,7 +29,7 @@ module.exports = Object.assign({}, common, {
 					plugins: [
 						['cycle-hmr/xstream', {
 							include: ['**/src/ui/**.js'],
-							exclude: ['**/src/ui/app.js'],
+							exclude: ['**/src/ui/main.js'],
 							testExportName: '^[A-Z]|default'
 						}]
 					]
