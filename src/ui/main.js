@@ -2,7 +2,7 @@ import xs from 'xstream'
 import Routes from './routes'
 
 function Main (sources) {
-    let routes$ = sources.Router.define(Routes),
+    let routes$ = sources.Router.define(Routes).remember(),
         page$ = routes$.map(({path, value}) => value(Object.assign({}, sources, {
             Router: sources.Router.path(path)
         }))).remember()
