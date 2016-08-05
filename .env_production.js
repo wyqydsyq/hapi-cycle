@@ -3,9 +3,9 @@ var path = require('path');
 
 var conf = require(path.join(__dirname, 'package.json')),
 	version = conf.version,
-	env = 'development',
+	env = 'production',
 	hostname = typeof (conf.env[env].hostname != 'undefined') ? conf.env[env].hostname : 'localhost',
-	port = typeof (conf.env[env].port != 'undefined') ? conf.env[env].port : 1337,
+	port = typeof (conf.env[env].port != 'undefined') ? conf.env[env].port : 80,
 	host = hostname + ':' + port,
 	branch = git.branch();
 
