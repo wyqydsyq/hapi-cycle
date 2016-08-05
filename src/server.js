@@ -57,6 +57,9 @@ server.register([
 				simple: {
 					adapter: 'memory'
 				}
+			},
+			defaults: {
+				migrate: (ENV == 'development') ? 'alter' : 'safe'
 			}
 		}
 	},
