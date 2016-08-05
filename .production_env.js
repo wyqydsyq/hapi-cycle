@@ -21,7 +21,6 @@ var conf = require(path.join(__dirname, 'package.json')),
 	host = hostname + ':' + port,
 	branch = getBranch();
 
-console.log('PORT: ', port, process.env.PORT)
 module.exports = {
 	BRANCH: branch,
 	VERSION: version,
