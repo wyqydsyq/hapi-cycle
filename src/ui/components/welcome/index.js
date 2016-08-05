@@ -1,28 +1,23 @@
 import {div, a, hr} from '@cycle/dom'
 import xs from 'xstream'
-import md from 'megamark'
 import classes from 'classes'
 
-import styles from 'components/form/styles'
+import form from 'components/form/styles'
 
-function Welcome (sources) {
+function Welcome (sources) { console.log('welcome')
 	let render = () => {
-			return div([
-				a({props: {href: '/example'}, class: classes(styles.submit)}, ['Demo']),
+			return div('.welcome', [
+				a({props: {href: '/example'}, class: classes(form.submit)}, ['Demo']),
 				hr(),
-				div({props: {
-					innerHTML: md(require('README.md'))
+				div('.readme', {props: {
+					innerHTML: require('README.md')
 				}})
 			])
 		}
 
 	return {
 		DOM: xs.of(render()),
-		HTTP: xs.of(null),
-		Router: sources.DOM.select('a').events('click').map(ev => {
-			ev.preventDefault()
-			return ev.target.attributes.href.nodeValue
-		})
+		HTTP: xs.of(null)
 	}
 }
 

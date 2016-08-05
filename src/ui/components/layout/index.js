@@ -1,4 +1,4 @@
-import {div, header, footer, nav, img, small, span, h1} from '@cycle/dom'
+import {div, header, footer, small, span, h1} from '@cycle/dom'
 import xs from 'xstream'
 import classes from 'classes'
 
@@ -26,7 +26,11 @@ const layout = ({DOM, view}) => {
 			])
 		},
 		component = Object.assign({}, view, {
-			DOM: view.DOM.map(render)
+			DOM: view.DOM.map(render),
+			Router: DOM.select('a').events('click').filter(ev => ev.target.attributes.href.textContent.match(/^\/.*/)).map(ev => {
+				ev.preventDefault()
+				return ev.target.attributes.href.nodeValue
+			})
 		})
 
 	return component
