@@ -2,7 +2,7 @@
   "name": "hapicycle",
   "version": "0.0.1",
   "description": "HapiCycle",
-  "main": ".tmp/server.js",
+  "main": "build/server.js",
   "env": {
     "development": {
       "hostname": "localhost",
@@ -17,7 +17,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf ./.tmp/*",
     "build": "node ./node_modules/.bin/webpack",
-    "start": "node .tmp/server.js || echo 'A server error occured, have you ran `$ npm run build` yet?'",
+    "start": "node build/server.js || echo 'A server error occured, have you ran `$ npm run build` yet?'",
     "launch": "npm run build && npm run start",
     "dev": "node ./node_modules/.bin/webpack-dev-server"
   },
