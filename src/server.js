@@ -18,7 +18,7 @@ import Boilerplate from './boilerplate.js'
 import routes from './api/routes'
 
 const server = new Hapi.Server()
-console.log('port: ', PORT)
+
 server.connection({
 	host: HOSTNAME,
 	port: PORT
