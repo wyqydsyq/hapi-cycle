@@ -6,7 +6,7 @@ function getBranch() {
 
 	try {
 		branch = git.branch()
-	} catch () {
+	} catch (e) {
 		branch = ''
 	}
 
