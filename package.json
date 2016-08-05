@@ -17,8 +17,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf ./.tmp/*",
     "build": "node ./node_modules/.bin/webpack",
-    "start": "npm run build && node .tmp/server.js",
-    "launch": "npm run start",
+    "start": "node .tmp/server.js || echo 'Server not found, have you ran `$ npm run build` yet?'",
+    "launch": "npm run build && npm run start",
     "dev": "node ./node_modules/.bin/webpack-dev-server"
   },
   "author": "Damon Poole",
