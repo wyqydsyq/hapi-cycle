@@ -8,7 +8,8 @@ var common = require('./webpack-common.config'),
 			/^@cycle\//,
 			/^xstream/,
 			/^cyclic\-/,
-			/history/
+			/^history/,
+			/^crypto\-js/
 		]
 	}),
 	webpackEnv = require('webpack-env'),
@@ -31,7 +32,7 @@ module.exports = Object.assign({}, common, {
 		filename: 'server.js',
 		libraryTarget: 'commonjs2'
 	},
-	// externals: [externals],
+	externals: [externals],
 	module: {
 		loaders: common.module.loaders.concat(
 			{
