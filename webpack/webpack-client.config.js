@@ -1,5 +1,14 @@
 var common = require('./webpack-common.config'),
-	path = require('path');
+	path = require('path'),
+	webpackEnv = require('webpack-env'),
+	babelPlugins = [];
+
+if (webpackEnv.definitions.ENV == 'development') {
+	babelPlugins.push(['cycle-hmr/xstream', {
+		include: ['**/src/ui/**.js'],
+		testExportName: '^[A-Z]|default'
+	}])
+}
 
 module.exports = Object.assign({}, common, {
 	target: 'web',
@@ -18,12 +27,7 @@ module.exports = Object.assign({}, common, {
 				query: {
 					presets: ['es2015','es2016'],
 					sourceMaps: 'inline',
-					plugins: [
-						['cycle-hmr/xstream', {
-							include: ['**/src/ui/**.js'],
-							testExportName: '^[A-Z]|default'
-						}]
-					]
+					plugins: babelPlugins
 				}
 			},
 			{

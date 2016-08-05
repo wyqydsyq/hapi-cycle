@@ -5,7 +5,17 @@ var common = require('./webpack-common.config'),
 	nodeExternals = require('webpack-node-externals'),
 	externals = nodeExternals({
 		whitelist: [/^@cycle\//]
-	});
+	}),
+	webpackEnv = require('webpack-env'),
+	babelPlugins = [];
+
+if (webpackEnv.definitions.ENV == 'development') {
+	babelPlugins.push(['cycle-hmr/xstream', {
+		include: ['**/src/ui/**.js'],
+		exclude: ['**/src/ui/main.js'],
+		testExportName: '^[A-Z]|default'
+	}])
+}
 
 module.exports = Object.assign({}, common, {
 	target: 'node',
@@ -26,13 +36,7 @@ module.exports = Object.assign({}, common, {
 				query: {
 					presets: ['es2015','es2016'],
 					sourceMaps: 'inline',
-					plugins: [
-						['cycle-hmr/xstream', {
-							include: ['**/src/ui/**.js'],
-							exclude: ['**/src/ui/main.js'],
-							testExportName: '^[A-Z]|default'
-						}]
-					]
+					plugins: babelPlugins
 				}
 
 			},
