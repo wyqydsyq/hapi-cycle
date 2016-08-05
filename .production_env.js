@@ -12,7 +12,7 @@ function getBranch() {
 
 	return branch
 }
-console.log('PORT: ', process.env.PORT)
+
 var conf = require(path.join(__dirname, 'package.json')),
 	version = conf.version,
 	env = 'production',
