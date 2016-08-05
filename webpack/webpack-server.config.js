@@ -7,9 +7,10 @@ var common = require('./webpack-common.config'),
 		whitelist: [
 			/^@cycle\//,
 			/^xstream/,
-			/^cyclic\-/,
+			/^cyclic-/,
 			/^history/,
-			/^crypto\-js/
+			/^crypto-js/,
+			/^computed-style/
 		]
 	}),
 	webpackEnv = require('webpack-env'),

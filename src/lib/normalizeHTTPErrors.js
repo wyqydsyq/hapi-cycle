@@ -1,3 +1,5 @@
+import xs from 'xstream'
+
 export default res$ => res$.replaceError(error => {
 	let res = error.res || {body: error, request: {method: null}}
 	res.error = true

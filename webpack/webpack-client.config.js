@@ -6,6 +6,7 @@ var common = require('./webpack-common.config'),
 if (webpackEnv.definitions.ENV == 'development') {
 	babelPlugins.push(['cycle-hmr/xstream', {
 		include: ['**/src/ui/**.js'],
+		exclude: ['**/src/ui/main.js'],
 		testExportName: '^[A-Z]|default'
 	}])
 }
