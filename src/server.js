@@ -18,10 +18,10 @@ import Boilerplate from './boilerplate.js'
 import routes from './api/routes'
 
 const server = new Hapi.Server()
-console.log(PORT)
+
 server.connection({
 	host: HOSTNAME,
-	port: PORT
+	port: process.env.PORT || PORT
 })
 
 let serverPlugins = [
