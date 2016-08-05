@@ -4,7 +4,12 @@ var common = require('./webpack-common.config'),
 	ExtractTextPlugin = require('extract-text-webpack-plugin'),
 	nodeExternals = require('webpack-node-externals'),
 	externals = nodeExternals({
-		// whitelist: [/^@cycle\//]
+		whitelist: [
+			/^@cycle\//,
+			/^xstream/,
+			/^cyclic\-/,
+			/history/
+		]
 	}),
 	webpackEnv = require('webpack-env'),
 	babelPlugins = [];
