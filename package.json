@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "HapiCycle",
   "main": "build/server.js",
+  "engines": {
+    "node": "^6.2.0",
+    "npm": "^3.8.9"  
+  },
   "env": {
     "development": {
       "hostname": "localhost",
