@@ -12,7 +12,7 @@ import UserProfile from './user-list-profile'
 function UserList (sources) {
 
 	let getUsers = {
-			url: `http://${HOST}/api/users`,
+			url: '/api/users',
 			category: 'user',
 			method: 'GET'
 		},

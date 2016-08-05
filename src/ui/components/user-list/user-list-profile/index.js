@@ -15,7 +15,7 @@ function UserProfile ({DOM, HTTP, user$}) {
 			out: [animate.flipOutX]
 		},
 		remove$ = DOM.select('button').events('click').map(ev => ({
-				url: `http://${HOST}/api/users`,
+				url: '/api/users',
 				category: 'user',
 				method: 'DELETE',
 				send: {
