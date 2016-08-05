@@ -20,7 +20,6 @@ import routes from './api/routes'
 const server = new Hapi.Server()
 
 server.connection({
-	host: HOSTNAME,
 	port: process.env.PORT || PORT
 })
 
