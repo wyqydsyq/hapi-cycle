@@ -1,7 +1,7 @@
 var common = require('./webpack-common.config'),
 	webpack = require('webpack'),
 	path = require('path'),
-	ExtractTextPlugin = require("extract-text-webpack-plugin"),
+	ExtractTextPlugin = require('extract-text-webpack-plugin'),
 	nodeExternals = require('webpack-node-externals'),
 	externals = nodeExternals({
 		whitelist: [/^@cycle\//]
@@ -45,7 +45,7 @@ module.exports = Object.assign({}, common, {
 			}
 		)
 	},
-	plugins: common.plugins.concat(new ExtractTextPlugin("bundle.css")),
+	plugins: common.plugins.concat(new ExtractTextPlugin('bundle.css')),
 	resolve: Object.assign({}, common.resolve, {alias: {
 		app: './.tmp/client.js'
 	}})
