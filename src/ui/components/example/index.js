@@ -8,7 +8,7 @@ import Alerts from 'components/alerts'
 import CreateUser from 'components/create-user'
 import UserList from 'components/user-list'
 
-function Example (sources) {
+function Example (sources) { console.log('example')
 	let createUserForm = CreateUser(sources),
 		userList = UserList(Object.assign({}, sources, {refresh$: createUserForm.created$})),
 		alerts = Alerts({DOM: sources.DOM, add$: xs.merge(createUserForm.alerts$, userList.alerts$)}),
