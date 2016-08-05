@@ -2,10 +2,7 @@ var common = require('./webpack-common.config'),
 	path = require('path');
 
 module.exports = Object.assign({}, common, {
-	entry: [
-		'./src/client.js',
-		'webpack-hot-middleware/client'
-	],
+	entry: ['./src/client.js'],
 	target: 'web',
 	output: {
 		path: path.resolve(process.cwd(), '../tmp/'),
@@ -28,7 +25,6 @@ module.exports = Object.assign({}, common, {
 						}]
 					]
 				}
-
 			},
 			{
 				test: /\.less$|\.css$/,

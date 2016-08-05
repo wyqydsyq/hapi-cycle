@@ -1,7 +1,8 @@
 var webpack = require('webpack'),
 	path = require('path'),
+	copyWebpackPlugin = require('copy-webpack-plugin'),
 	webpackEnv = require('webpack-env'),
-	copyWebpackPlugin = require('copy-webpack-plugin');
+	env = webpackEnv.definitions.ENV;
 
 module.exports = {
 	context: path.resolve(process.cwd()),
@@ -55,7 +56,7 @@ module.exports = {
 		]
 	},
 	plugins: [
-		new webpack.HotModuleReplacementPlugin(),
+		(env == 'development') ? new webpack.HotModuleReplacementPlugin() : () => {},
 		new webpack.NoErrorsPlugin(),
 		new webpack.DefinePlugin(webpackEnv.definitions)//,
 		// new webpack.optimize.CommonsChunkPlugin('common.[hash].js')

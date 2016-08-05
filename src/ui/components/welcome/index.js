@@ -1,13 +1,16 @@
-import {div, a, hr} from '@cycle/dom'
+import {div, nav, a, i, hr} from '@cycle/dom'
 import xs from 'xstream'
 import classes from 'classes'
 
 import form from 'components/form/styles'
 
-function Welcome (sources) { console.log('welcome')
+function Welcome (sources) {
 	let render = () => {
 			return div('.welcome', [
-				a({props: {href: '/example'}, class: classes(form.submit)}, ['Demo']),
+				nav([
+					a({props: {href: '/example'}, class: classes(form.submit)}, ['Demo']),
+					a({props: {href: 'https://github.com/wyqydsyq/hapi-cycle', rel: 'external'}, class: classes(form.submit)}, ['GitHub', ' ', i({class: classes(form.fa, form.faGithub)})]),
+				]),
 				hr(),
 				div('.readme', {props: {
 					innerHTML: require('README.md')
@@ -16,8 +19,7 @@ function Welcome (sources) { console.log('welcome')
 		}
 
 	return {
-		DOM: xs.of(render()),
-		HTTP: xs.of(null)
+		DOM: xs.of(render())
 	}
 }
 

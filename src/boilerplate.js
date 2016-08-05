@@ -22,7 +22,7 @@ function wrapVTree (vtree) {
 
 function Boilerplate (sources, App) {
 	const AppResult = App(sources)
-	console.log(AppResult)
+	
 	return Object.assign({}, AppResult, {
 		DOM: AppResult.DOM.take(1).map(wrapVTree)
 	})

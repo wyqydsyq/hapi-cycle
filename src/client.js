@@ -4,7 +4,7 @@ import {makeHTTPDriver} from '@cycle/http';
 import {makeRouterDriver} from 'cyclic-router';
 import {createHistory} from 'history';
 
-let getApp = () => require('./ui/app').default,
+let getApp = () => require('./ui/main').default,
 	getDrivers = () => ({
 	    DOM: makeDOMDriver('#app'),
 	    HTTP: makeHTTPDriver(),
@@ -16,7 +16,7 @@ window.app = Cycle(getApp(), drivers);
 window.dispose = app.run();
 
 if (module.hot) {
-	module.hot.accept('./ui/app', () => {
+	module.hot.accept('./ui/main', () => {
 		window.dispose();
 		window.app = Cycle(getApp(), drivers);
 		window.dispose = window.app.run();

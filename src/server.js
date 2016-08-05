@@ -1,7 +1,7 @@
 import Hapi from 'hapi'
 import Webpack from 'webpack'
 import WebpackPlugin from 'hapi-webpack-plugin'
-import WebpackConfig from '../webpack.config.js'
+import WebpackConfig from '../webpack/webpack-client.config'
 import Dogwater from 'dogwater'
 import Memory from 'sails-memory'
 import path from 'path'
@@ -12,7 +12,7 @@ import {makeHTTPDriver} from '@cycle/http'
 import {makeRouterDriver} from 'cyclic-router'
 import createHistory from 'history/lib/createMemoryHistory'
 
-import App from './ui/app'
+import App from './ui/main'
 import Boilerplate from './boilerplate.js'
 
 import routes from './api/routes'
@@ -22,21 +22,27 @@ const server = new Hapi.Server()
 server.connection({
 	host: HOSTNAME,
 	port: PORT
-});
+})
+
+let entry = [path.resolve(process.cwd(), 'src/client.js')],
+	plugins = WebpackConfig.plugins
+
+if (ENV == 'development') {
+	entry.push('webpack-hot-middleware/client')
+	plugins.push(new Webpack.HotModuleReplacementPlugin())
+}
 
 server.register([
 	{
 		register: WebpackPlugin,
 		options: {
-			compiler: new Webpack(Object.assign({}, WebpackConfig[0], {
-				entry: [
-					path.resolve(process.cwd(), 'src/client.js'),
-					'webpack-hot-middleware/client'
-				]
+			compiler: new Webpack(Object.assign({}, WebpackConfig, {
+				entry,
+				plugins
 			})),
 			assets: {
-				path: WebpackConfig[0].output.path,
-				publicPath: WebpackConfig[0].output.publicPath
+				path: WebpackConfig.output.path,
+				publicPath: WebpackConfig.output.publicPath
 			},
 			hot: {}
 		}
@@ -76,12 +82,12 @@ server.register([
 		handler: (req, res) => {
 			const context = createHistory()
 			context.replace(req.params.route)
-			
+
 			Cycle.run(sources => Boilerplate(sources, App), {
 				DOM: makeHTMLDriver(html => res('<!DOCTYPE html>' + html)),
 				HTTP: makeHTTPDriver(),
 				Router: makeRouterDriver(context)
-			});
+			})
 		}
 	})
 

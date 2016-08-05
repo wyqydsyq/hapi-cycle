@@ -1,7 +1,7 @@
 import xs from 'xstream'
 import Routes from './routes'
 
-function App (sources) {
+function Main (sources) {
     let routes$ = sources.Router.define(Routes),
         page$ = routes$.map(({path, value}) => value(Object.assign({}, sources, {
             Router: sources.Router.path(path)
@@ -14,4 +14,4 @@ function App (sources) {
     }
 }
 
-export default App
+export default Main
