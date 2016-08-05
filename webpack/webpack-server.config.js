@@ -12,7 +12,7 @@ module.exports = Object.assign({}, common, {
 	externals: [externals],
 	entry: ['./src/server.js'],
 	output: {
-		path: path.resolve(process.cwd(), '.tmp/'),
+		path: path.resolve(process.cwd(), 'build/'),
 		publicPath: '/build/',
 		filename: 'server.js',
 		libraryTarget: 'commonjs2'
@@ -21,7 +21,7 @@ module.exports = Object.assign({}, common, {
 		loaders: common.module.loaders.concat(
 			{
 				test: /\.js$/,
-				exclude: /(node_modules|\.tmp|webpack)/,
+				exclude: /(node_modules|build|webpack)/,
 				loader: 'babel',
 				query: {
 					presets: ['es2015','es2016'],
@@ -47,6 +47,6 @@ module.exports = Object.assign({}, common, {
 	},
 	plugins: common.plugins.concat(new ExtractTextPlugin('bundle.css')),
 	resolve: Object.assign({}, common.resolve, {alias: {
-		app: './.tmp/client.js'
+		app: './build/client.js'
 	}})
 });

@@ -98,7 +98,7 @@ server.register(serverPlugins, err => {
 		path: '/build/{param*}',
 		handler: {
 			directory: {
-				path: '.tmp'
+				path: 'build'
 			}
 		}
 	})
