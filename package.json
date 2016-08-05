@@ -17,6 +17,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf ./.tmp/*",
     "build": "node ./node_modules/.bin/webpack",
+    "heroku-build": "npm run build",
     "start": "node build/server.js || echo 'A server error occured, have you ran `$ npm run build` yet?'",
     "launch": "npm run build && npm run start",
     "dev": "node ./node_modules/.bin/webpack-dev-server"
