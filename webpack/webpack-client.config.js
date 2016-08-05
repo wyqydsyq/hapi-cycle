@@ -5,7 +5,7 @@ module.exports = Object.assign({}, common, {
 	entry: ['./src/client.js'],
 	target: 'web',
 	output: {
-		path: path.resolve(process.cwd(), '../build/'),
+		path: path.resolve(process.cwd(), 'build/'),
 		publicPath: '/build/',
 		filename: 'client.js'
 	},

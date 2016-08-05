@@ -47,6 +47,6 @@ module.exports = Object.assign({}, common, {
 	},
 	plugins: common.plugins.concat(new ExtractTextPlugin('bundle.css')),
 	resolve: Object.assign({}, common.resolve, {alias: {
-		app: './build/client.js'
+		main: './build/client.js'
 	}})
 });
