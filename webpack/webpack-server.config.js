@@ -4,7 +4,7 @@ var common = require('./webpack-common.config'),
 	ExtractTextPlugin = require('extract-text-webpack-plugin'),
 	nodeExternals = require('webpack-node-externals'),
 	externals = nodeExternals({
-		whitelist: [/^@cycle\//]
+		// whitelist: [/^@cycle\//]
 	}),
 	webpackEnv = require('webpack-env'),
 	babelPlugins = [];
@@ -31,7 +31,7 @@ module.exports = Object.assign({}, common, {
 		loaders: common.module.loaders.concat(
 			{
 				test: /\.js$/,
-				exclude: /(node_modules|webpack)/,
+				exclude: /(node_modules|build|webpack)/,
 				loader: 'babel',
 				query: {
 					presets: ['es2015','es2016'],
