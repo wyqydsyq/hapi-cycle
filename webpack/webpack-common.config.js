@@ -11,7 +11,7 @@ module.exports = {
 		'README.md': path.resolve(process.cwd(), 'README.md')
 	},
 	resolve: {
-		modulesDirectories: ['node_modules', 'src/lib', 'src/ui', 'assets', './'],
+		modulesDirectories: ['node_modules', 'src/lib', 'src/ui', 'assets'],
 		extensions: ['', '.js', '.node', '.less', '.json', '.md']
 	},
 	module: {

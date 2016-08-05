@@ -9,7 +9,6 @@ var common = require('./webpack-common.config'),
 
 module.exports = Object.assign({}, common, {
 	target: 'node',
-	externals: [externals],
 	entry: ['./src/server.js'],
 	output: {
 		path: path.resolve(process.cwd(), 'build/'),
@@ -17,6 +16,7 @@ module.exports = Object.assign({}, common, {
 		filename: 'server.js',
 		libraryTarget: 'commonjs2'
 	},
+	externals: [externals],
 	module: {
 		loaders: common.module.loaders.concat(
 			{

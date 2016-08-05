@@ -2,8 +2,8 @@ var common = require('./webpack-common.config'),
 	path = require('path');
 
 module.exports = Object.assign({}, common, {
-	entry: ['./src/client.js'],
 	target: 'web',
+	entry: ['./src/client.js'],
 	output: {
 		path: path.resolve(process.cwd(), 'build/'),
 		publicPath: '/build/',
