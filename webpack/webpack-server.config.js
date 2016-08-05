@@ -31,7 +31,7 @@ module.exports = Object.assign({}, common, {
 		filename: 'server.js',
 		libraryTarget: 'commonjs2'
 	},
-	externals: [externals],
+	// externals: [externals],
 	module: {
 		loaders: common.module.loaders.concat(
 			{
