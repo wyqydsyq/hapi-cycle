@@ -1,11 +1,9 @@
 import xs from 'xstream'
 import Routes from './routes'
 
-function Main (sources) {
+function Main (sources) { console.log('main')
     let routes$ = sources.Router.define(Routes),
-        page$ = routes$.map(({path, value}) => value(Object.assign({}, sources, {
-            Router: sources.Router.path(path)
-        }))).remember()
+        page$ = routes$.map(({path, value}) => value(sources)).remember()
 
     return {
         DOM: page$.map(page => page.DOM).flatten(),
