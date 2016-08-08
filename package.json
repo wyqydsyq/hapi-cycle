@@ -5,7 +5,7 @@
   "main": "build/server.js",
   "engines": {
     "node": "^6.2.0",
-    "npm": "^3.8.9"  
+    "npm": "^3.8.9"
   },
   "env": {
     "development": {
@@ -75,6 +75,5 @@
     "xstream": "^5.3.2"
   },
   "devDependencies": {
-    "webpack-node-externals": "^1.3.3"
   }
 }
