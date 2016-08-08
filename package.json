@@ -30,15 +30,15 @@
   "license": "ISC",
   "dependencies": {
     "@cycle/collection": "^0.3.0",
-    "@cycle/dom": "^10.1.0",
-    "@cycle/http": "^9.0.2",
+    "@cycle/dom": "^12.0.3",
+    "@cycle/http": "^10.0.0",
     "@cycle/isolate": "^1.4.0",
-    "@cycle/xstream-run": "^3.0.3",
-    "babel-cli": "^6.10.1",
-    "babel-core": "^6.10.4",
+    "@cycle/xstream-run": "^3.0.4",
+    "babel-cli": "^6.11.4",
+    "babel-core": "^6.13.2",
     "babel-loader": "^6.2.4",
-    "babel-polyfill": "^6.9.1",
-    "babel-preset-es2015": "^6.9.0",
+    "babel-polyfill": "^6.13.0",
+    "babel-preset-es2015": "^6.13.2",
     "babel-preset-es2016": "^6.11.3",
     "computed-style": "^0.3.0",
     "copy-webpack-plugin": "^3.0.1",
@@ -46,12 +46,12 @@
     "css-loader": "^0.23.1",
     "cycle-hmr": "^0.3.1",
     "cyclic-router": "^2.1.2",
-    "dogwater": "^2.0.0",
+    "dogwater": "^2.1.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
     "font-awesome": "^4.6.3",
     "git-rev-sync": "^1.6.0",
-    "hapi": "^13.5.0",
+    "hapi": "^14.1.0",
     "hapi-webpack": "^1.0.0",
     "hapi-webpack-plugin": "^1.3.0",
     "history": "^3.0.0",
@@ -70,11 +70,11 @@
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1",
     "webpack-env": "^0.8.0",
-    "webpack-hot-middleware": "^2.12.1",
+    "webpack-hot-middleware": "^2.12.2",
     "webpack-node-externals": "^1.3.3",
-    "xstream": "^5.2.1"
+    "xstream": "^5.3.2"
   },
   "devDependencies": {
-    "webpack-node-externals": "^1.2.0"
+    "webpack-node-externals": "^1.3.3"
   }
 }
