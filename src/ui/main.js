@@ -3,7 +3,7 @@ import Routes from './routes'
 
 function Main (sources) {
 	let routes$ = sources.Router.define(Routes).remember(),
-		page$ = routes$.map(({path, value}) => value(sources)).remember()
+		page$ = routes$.map(({path, value}) => value(sources)).remember().debug('pageChange')
 
 	return {
 		DOM: page$.map(page => page.DOM).flatten(),
