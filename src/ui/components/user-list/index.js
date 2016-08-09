@@ -43,8 +43,9 @@ function UserList (sources) {
 				p(message),
 				div('.userList', {
 					style: {
-						transitionProprty: 'height margin',
-						transitionDuration: '.5s'
+						transitionProprty: 'height',
+						transitionDuration: '.5s',
+						height: '0px'
 					},
 					hook: {
 						postpatch: transitionHeight

@@ -13,7 +13,7 @@ export function transitionHeight (old, vnode) {
 		vnode.elm.style.transitionDelay = '.25s'
 		newChildren.forEach(child => {
 			child.elm.style.animationDelay = '.75s'
-			child.elm.style.transitionProprty = 'height margin'
+			child.elm.style.transitionProperty = 'height, margin'
 			child.elm.style.transitionDuration = '.5s'
 		})
 	}
@@ -23,7 +23,7 @@ export function transitionHeight (old, vnode) {
 		vnode.elm.style.transitionDelay = '.75s'
 		oldChildren.forEach(child => {
 			child.elm.style.animationDelay = '.25s'
-			child.elm.style.transitionProprty = 'height margin'
+			child.elm.style.transitionProperty = 'height, margin'
 			child.elm.style.transitionDuration = '.5s'
 		})
 	}
