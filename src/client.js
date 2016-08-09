@@ -8,8 +8,7 @@ let getApp = () => require('./ui/main').default,
 	getDrivers = () => ({
 		DOM: makeDOMDriver('#app'),
 		HTTP: makeHTTPDriver(),
-		Router: makeRouterDriver(createHistory()),
-		Test: (v) => {console.log(v)}
+		Router: makeRouterDriver(createHistory())
 	}),
 	drivers = getDrivers();
 

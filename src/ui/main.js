@@ -8,8 +8,7 @@ function Main (sources) { console.log('main')
 	return {
 		DOM: page$.map(page => page.DOM).flatten(),
 		HTTP: page$.map(page => page.HTTP).flatten(),
-		Router: page$.map(page => page.Router).flatten(),
-		Test: page$.mapTo({foo:'bar'})
+		Router: page$.map(page => page.Router).flatten()
 	}
 }
 
