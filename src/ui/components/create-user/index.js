@@ -1,6 +1,5 @@
 import {div, form, fieldset, legend, label, input, button, i, strong} from '@cycle/dom'
 import {makeHTTPDriver} from '@cycle/http'
-import isolate from '@cycle/isolate'
 import xs from 'xstream'
 import classes from 'classes'
 import action from 'action'
@@ -119,4 +118,4 @@ function CreateUser (sources) {
 	}
 }
 
-export default sources => isolate(CreateUser)(sources)
+export default CreateUser
