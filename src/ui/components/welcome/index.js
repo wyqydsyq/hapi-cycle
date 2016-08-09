@@ -4,7 +4,7 @@ import classes from 'classes'
 
 import form from 'components/form/styles'
 
-function Welcome (sources) { console.log('welcome')
+function Welcome (sources) {
 	let render = () => {
 			return div('.welcome', [
 				nav([
