@@ -2,15 +2,15 @@ import xs from 'xstream'
 import Routes from './routes'
 
 function Main (sources) { console.log('main')
-    let routes$ = sources.Router.define(Routes),
-        page$ = routes$.map(({path, value}) => value(sources)).remember()
+	let routes$ = sources.Router.define(Routes).remember(),
+		page$ = routes$.map(({path, value}) => value(sources)).remember()
 
-    return {
-        DOM: page$.map(page => page.DOM).flatten(),
-        HTTP: page$.map(page => page.HTTP).flatten(),
-        Router: page$.map(page => page.Router).flatten(),
-        Test: page$.mapTo({foo:'bar'})
-    }
+	return {
+		DOM: page$.map(page => page.DOM).flatten(),
+		HTTP: page$.map(page => page.HTTP).flatten(),
+		Router: page$.map(page => page.Router).flatten(),
+		Test: page$.mapTo({foo:'bar'})
+	}
 }
 
 export default Main
