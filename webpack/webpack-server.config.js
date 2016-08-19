@@ -2,6 +2,7 @@ var common = require('./webpack-common.config'),
 	webpack = require('webpack'),
 	path = require('path'),
 	ExtractTextPlugin = require('extract-text-webpack-plugin'),
+	FaviconsWebpackPlugin = require('favicons-webpack-plugin'),
 	nodeExternals = require('webpack-node-externals'),
 	externals = nodeExternals({
 		whitelist: [
@@ -56,7 +57,14 @@ module.exports = Object.assign({}, common, {
 			}
 		)
 	},
-	plugins: common.plugins.concat(new ExtractTextPlugin('bundle.css')),
+	plugins: common.plugins.concat([
+		new ExtractTextPlugin('bundle.css'),
+		new FaviconsWebpackPlugin({
+			logo: 'assets/images/logo.png',
+			emitStats: true,
+			statsFilename: 'favicons.json'
+		})
+	]),
 	resolve: Object.assign({}, common.resolve, {alias: {
 		main: './build/client.js'
 	}})
