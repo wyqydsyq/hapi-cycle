@@ -1,38 +1,50 @@
 var common = require('./webpack-common.config'),
 	webpack = require('webpack'),
 	path = require('path'),
-	ExtractTextPlugin = require("extract-text-webpack-plugin"),
+	ExtractTextPlugin = require('extract-text-webpack-plugin'),
+	FaviconsWebpackPlugin = require('favicons-webpack-plugin'),
 	nodeExternals = require('webpack-node-externals'),
 	externals = nodeExternals({
-		whitelist: [/^@cycle\//]
-	});
+		whitelist: [
+			/^@cycle\//,
+			/^xstream/,
+			/^cyclic-/,
+			/^history/,
+			/^crypto-js/,
+			/^computed-style/
+		]
+	}),
+	webpackEnv = require('webpack-env'),
+	babelPlugins = [];
+
+if (webpackEnv.definitions.ENV == 'development') {
+	babelPlugins.push(['cycle-hmr/xstream', {
+		include: ['**/src/ui/**.js'],
+		exclude: ['**/src/ui/main.js'],
+		testExportName: '^[A-Z]|default'
+	}])
+}
 
 module.exports = Object.assign({}, common, {
 	target: 'node',
-	externals: [externals],
 	entry: ['./src/server.js'],
 	output: {
-		path: path.resolve(process.cwd(), '.tmp/'),
+		path: path.resolve(process.cwd(), 'build/'),
 		publicPath: '/build/',
 		filename: 'server.js',
 		libraryTarget: 'commonjs2'
 	},
+	externals: [externals],
 	module: {
 		loaders: common.module.loaders.concat(
 			{
 				test: /\.js$/,
-				exclude: /(node_modules|\.tmp|webpack)/,
+				exclude: /(node_modules|webpack)/,
 				loader: 'babel',
 				query: {
 					presets: ['es2015','es2016'],
 					sourceMaps: 'inline',
-					plugins: [
-						['cycle-hmr/xstream', {
-							include: ['**/src/ui/**.js'],
-							exclude: ['**/src/ui/app.js'],
-							testExportName: '^[A-Z]|default'
-						}]
-					]
+					plugins: babelPlugins
 				}
 
 			},
@@ -45,8 +57,15 @@ module.exports = Object.assign({}, common, {
 			}
 		)
 	},
-	plugins: common.plugins.concat(new ExtractTextPlugin("bundle.css")),
+	plugins: common.plugins.concat([
+		new ExtractTextPlugin('bundle.css'),
+		new FaviconsWebpackPlugin({
+			logo: 'assets/images/logo.png',
+			emitStats: true,
+			statsFilename: 'favicons.json'
+		})
+	]),
 	resolve: Object.assign({}, common.resolve, {alias: {
-		app: './.tmp/client.js'
+		main: './build/client.js'
 	}})
 });

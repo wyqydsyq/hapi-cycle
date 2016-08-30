@@ -20,25 +20,41 @@ import routes from './api/routes'
 const server = new Hapi.Server()
 
 server.connection({
-	host: HOSTNAME,
-	port: PORT
+	port: process.env.PORT || PORT
 })
 
-let entry = [path.resolve(process.cwd(), 'src/client.js')],
-	plugins = WebpackConfig.plugins
+let serverPlugins = [
+		{
+			register: Dogwater,
+			options: {
+				adapters: {
+					memory: Memory
+				},
+				connections: {
+					simple: {
+						adapter: 'memory'
+					}
+				},
+				defaults: {
+					migrate: (ENV == 'development') ? 'alter' : 'safe'
+				}
+			}
+		},
+		{
+			register: require('inert')
+		}
+	]
 
 if (ENV == 'development') {
-	entry.push('webpack-hot-middleware/client')
-	plugins.push(new Webpack.HotModuleReplacementPlugin())
-}
-
-server.register([
-	{
+	serverPlugins.push({
 		register: WebpackPlugin,
 		options: {
 			compiler: new Webpack(Object.assign({}, WebpackConfig, {
-				entry,
-				plugins
+				entry: [
+					path.resolve(process.cwd(), 'src/client.js'),
+					'webpack-hot-middleware/client'
+				],
+				plugins: WebpackConfig.plugins.concat(new Webpack.HotModuleReplacementPlugin())
 			})),
 			assets: {
 				path: WebpackConfig.output.path,
@@ -46,24 +62,10 @@ server.register([
 			},
 			hot: {}
 		}
-	},
-	{
-		register: Dogwater,
-		options: {
-			adapters: {
-				memory: Memory
-			},
-			connections: {
-				simple: {
-					adapter: 'memory'
-				}
-			}
-		}
-	},
-	{
-		register: require('inert')
-	}
-], err => {
+	})
+}
+
+server.register(serverPlugins, err => {
 	if (err) throw err
 
 	// add API routes
@@ -96,7 +98,7 @@ server.register([
 		path: '/build/{param*}',
 		handler: {
 			directory: {
-				path: '.tmp'
+				path: 'build'
 			}
 		}
 	})

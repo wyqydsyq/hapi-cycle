@@ -1,6 +1,5 @@
 import {div, form, fieldset, legend, label, input, button, i, strong} from '@cycle/dom'
 import {makeHTTPDriver} from '@cycle/http'
-import isolate from '@cycle/isolate'
 import xs from 'xstream'
 import classes from 'classes'
 import action from 'action'
@@ -96,7 +95,7 @@ function CreateUser (sources) {
 	return {
 		DOM: xs.combine(state$, emailField.DOM, passwordField.DOM).map(render),
 		HTTP: xs.combine(actions.submit$, state$.take(1)).map(([action, state]) => ({
-			url: `http://${HOST}/api/users`,
+			url: '/api/users',
 			category: 'user',
 			method: 'POST',
 			type: 'application/x-www-form-urlencoded',
@@ -119,4 +118,4 @@ function CreateUser (sources) {
 	}
 }
 
-export default sources => isolate(CreateUser)(sources)
+export default CreateUser

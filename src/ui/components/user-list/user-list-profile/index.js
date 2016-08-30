@@ -1,5 +1,4 @@
 import {div, button, img, strong} from '@cycle/dom'
-import isolate from '@cycle/isolate'
 import xs from 'xstream'
 import MD5 from 'crypto-js/md5'
 import {animationEnd} from 'DOMEvents'
@@ -15,7 +14,7 @@ function UserProfile ({DOM, HTTP, user$}) {
 			out: [animate.flipOutX]
 		},
 		remove$ = DOM.select('button').events('click').map(ev => ({
-				url: `http://${HOST}/api/users`,
+				url: '/api/users',
 				category: 'user',
 				method: 'DELETE',
 				send: {
@@ -74,4 +73,4 @@ function UserProfile ({DOM, HTTP, user$}) {
 	}
 }
 
-export default sources => isolate(UserProfile)(sources)
+export default UserProfile

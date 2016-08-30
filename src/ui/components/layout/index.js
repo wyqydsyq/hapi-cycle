@@ -30,7 +30,7 @@ const layout = ({DOM, view}) => {
 			HTTP: view.HTTP || xs.of(null),
 			Router: DOM.select('a').events('click').filter(ev => ev.target.attributes.href.textContent.match(/^\/.*/)).map(ev => {
 				ev.preventDefault()
-				return ev.target.attributes.href.nodeValue
+				return ev.target.attributes.href.value
 			})
 		})
 

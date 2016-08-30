@@ -1,11 +1,21 @@
 var common = require('./webpack-common.config'),
-	path = require('path');
+	path = require('path'),
+	webpackEnv = require('webpack-env'),
+	babelPlugins = [];
+
+if (webpackEnv.definitions.ENV == 'development') {
+	babelPlugins.push(['cycle-hmr/xstream', {
+		include: ['**/src/ui/**.js'],
+		exclude: ['**/src/ui/main.js'],
+		testExportName: '^[A-Z]|default'
+	}])
+}
 
 module.exports = Object.assign({}, common, {
-	entry: ['./src/client.js'],
 	target: 'web',
+	entry: ['./src/client.js'],
 	output: {
-		path: path.resolve(process.cwd(), '../tmp/'),
+		path: path.resolve(process.cwd(), 'build/'),
 		publicPath: '/build/',
 		filename: 'client.js'
 	},
@@ -13,17 +23,12 @@ module.exports = Object.assign({}, common, {
 		loaders: common.module.loaders.concat(
 			{
 				test: /\.js$/,
-				exclude: /(node_modules|\.tmp|webpack)/,
+				exclude: /(node_modules|webpack)/,
 				loader: 'babel',
 				query: {
 					presets: ['es2015','es2016'],
 					sourceMaps: 'inline',
-					plugins: [
-						['cycle-hmr/xstream', {
-							include: ['**/src/ui/**.js'],
-							testExportName: '^[A-Z]|default'
-						}]
-					]
+					plugins: babelPlugins
 				}
 			},
 			{

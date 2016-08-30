@@ -1,17 +1,16 @@
 var webpack = require('webpack'),
 	path = require('path'),
 	copyWebpackPlugin = require('copy-webpack-plugin'),
-	webpackEnv = require('webpack-env'),
-	env = webpackEnv.definitions.ENV;
+	webpackEnv = require('webpack-env');
 
 module.exports = {
 	context: path.resolve(process.cwd()),
 	devtool: 'source-map',
 	assets: {},
-	alias: {
-		'README.md': path.resolve(process.cwd(), 'README.md')
-	},
 	resolve: {
+		alias: {
+			'README.md': path.resolve(process.cwd(), 'README.md')
+		},
 		modulesDirectories: ['node_modules', 'src/lib', 'src/ui', 'assets', './'],
 		extensions: ['', '.js', '.node', '.less', '.json', '.md']
 	},
@@ -56,7 +55,6 @@ module.exports = {
 		]
 	},
 	plugins: [
-		(env == 'development') ? new webpack.HotModuleReplacementPlugin() : () => {},
 		new webpack.NoErrorsPlugin(),
 		new webpack.DefinePlugin(webpackEnv.definitions)//,
 		// new webpack.optimize.CommonsChunkPlugin('common.[hash].js')
