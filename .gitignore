@@ -15,3 +15,5 @@ nbproject
 .idea
 .node_history
 build
+
+webpack.config.heroku.js
