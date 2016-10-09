@@ -18,7 +18,7 @@ window.dispose = app.run();
 if (module.hot) {
 	module.hot.accept('./ui/main', () => {
 		window.dispose();
-		window.app = Cycle(getApp(), drivers);
+		window.app = Cycle(getApp(), getDrivers());
 		window.dispose = window.app.run();
 	});
 }
