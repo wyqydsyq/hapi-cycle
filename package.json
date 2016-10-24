@@ -48,6 +48,7 @@
     "cyclic-router": "^2.1.2",
     "dogwater": "^2.1.0",
     "extract-text-webpack-plugin": "^1.0.1",
+    "purifycss-webpack-plugin": "^2.0.3"
     "favicons-webpack-plugin": "0.0.7",
     "file-loader": "^0.9.0",
     "font-awesome": "^4.6.3",
