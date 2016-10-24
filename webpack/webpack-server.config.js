@@ -2,6 +2,7 @@ var common = require('./webpack-common.config'),
 	webpack = require('webpack'),
 	path = require('path'),
 	ExtractTextPlugin = require('extract-text-webpack-plugin'),
+	PurifyCSSPlugin = require('purifycss-webpack-plugin'),
 	FaviconsWebpackPlugin = require('favicons-webpack-plugin'),
 	nodeExternals = require('webpack-node-externals'),
 	externals = nodeExternals({
@@ -59,6 +60,9 @@ module.exports = Object.assign({}, common, {
 	},
 	plugins: common.plugins.concat([
 		new ExtractTextPlugin('bundle.css'),
+		new PurifyCSSPlugin({
+			path: path.resolve(process.cwd())
+		}),
 		new FaviconsWebpackPlugin({
 			logo: 'assets/images/logo.png',
 			emitStats: true,
